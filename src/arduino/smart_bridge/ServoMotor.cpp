@@ -1,7 +1,9 @@
 #include "ServoMotor.h"
 #include "Arduino.h"
 
-ServoMotor::ServoMotor(int pin) : servoPin(pin) {}
+ServoMotor::ServoMotor(int pin) : GATE_PIN(pin) {
+  pinMode(GATE_PIN, INPUT);
+}
 
 void ServoMotor::attach()
 {
