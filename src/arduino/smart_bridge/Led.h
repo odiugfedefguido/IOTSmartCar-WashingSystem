@@ -9,7 +9,7 @@ public:
   void turnOff();
 
 private:
-  int LED_GREEN1;
+  int pinLed;
 };
 
 #endif

@@ -9,7 +9,7 @@ public:
   bool isPressed();
 
 private:
-  int pin;
+  int pinButton;
 };
 
 #endif

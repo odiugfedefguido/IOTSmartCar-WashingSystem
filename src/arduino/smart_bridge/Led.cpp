@@ -1,18 +1,18 @@
 #include "Led.h"
 #include "Arduino.h"
 
-Led::Led(int pin) : LED_GREEN1(pin)
+Led::Led(int pin) : pinLed(pin)
 {
-  pinMode(LED_GREEN1, OUTPUT);
+  pinMode(pinLed, OUTPUT);
 }
 
 void Led::turnOn()
 {
-  digitalWrite(LED_GREEN1, HIGH);
+  digitalWrite(pinLed, HIGH);
 }
 
 void Led::turnOff()
 {
-  digitalWrite(LED_GREEN1, LOW);
+  digitalWrite(pinLed, LOW);
 }
 
