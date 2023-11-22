@@ -3,11 +3,11 @@
 
 Button::Button(int pin)
 {
-    this->pin = pin;
-    pinMode(pin, INPUT);
+  this->pin = pin;
+  pinMode(pin, INPUT);
 }
 
 bool Button::isPressed()
 {
-    return digitalRead(pin) == HIGH;
+  return digitalRead(pin) == HIGH;
 }

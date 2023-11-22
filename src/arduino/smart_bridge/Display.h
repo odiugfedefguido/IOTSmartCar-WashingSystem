@@ -5,8 +5,8 @@ class Display
 {
 
 public:
-    Display();
-    void showText(char* text);
+  void showText(char* text);
+  void init();
 };
 
 #endif

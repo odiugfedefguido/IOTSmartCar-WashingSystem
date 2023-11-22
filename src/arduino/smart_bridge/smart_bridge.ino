@@ -3,25 +3,22 @@
 
 #define START_BUTTON_PIN 7
 
-Display lcd;
-Button startButton;
+Display* textLCD = new Display();
+Button* startButton = new Button(START_BUTTON_PIN);
 
 void setup()
 {
-    Serial.begin(9600);
+  Serial.begin(9600);
 
-    // LCD test
-    lcd = new Display();
-    lcd.showText("Test");
-    
-    // Button start
-    startButton = Button(START_BUTTON_PIN);
-
+  // LCD test
+  textLCD->init();
+  textLCD->showText("Test");
 }
 
 void loop()
 {
-    if (startButton.isPressed()) {
-        Serial.println("Button START is pressed.");
-    }
+  // Button test
+  if (startButton->isPressed()) {
+      Serial.println("Button START is pressed.");
+  }
 }
