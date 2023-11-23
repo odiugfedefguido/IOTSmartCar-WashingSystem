@@ -37,6 +37,8 @@ void setup()
 
   gateServo.attach();
   Serial.println("Gate attached!");*/
+  gateServo.attach();
+  Serial.println("Gate attached!");
 
  
 }
@@ -45,22 +47,22 @@ void loop()
 {
   debug();
   // Button test
-  
-
-/*
-    if (pirSensor.detectMotion())
-  {
-      ledGreen1.turnOn(); 
-      Serial.println("Motion detected!");
-  } else {
-      ledGreen1.turnOff();
-  }*/
-
-
 }
 
 void debug() {
-  ledGreen1.turnOn();
+
+  gateServo.write(180);
+  /*ledGreen1.turnOn();
   ledGreen2.turnOn();
   ledRed.turnOn();
+
+  if (startButton.isPressed()) {
+      Serial.println("Button START is pressed.");
+  }*/
+
+  /*if (pirSensor.detectMotion())
+  {
+      ledGreen1.turnOn(); 
+      Serial.println("Motion detected!");
+  }*/
 }
