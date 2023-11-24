@@ -1,0 +1,12 @@
+a partire dal basso
+led verde pin 12
+led rosso pin 11
+led verde pin 8
+----------------------
+button pin 7
+------------------
+pir pin 13
+---------------
+servo pin 5
+---------------
+sonar pin 9 10
