@@ -9,13 +9,12 @@
 //il pir rivela una macchina 
 #include "Arduino.h"
 #include "TaskPirPresence.h"
+#include "StateMachine.h"
 #include "Pir.h"
 
-TaskPirPresence::TaskPirPresence() : Pir(PIR_PIN) {}
+TaskPirPresence::TaskPirPresence(int PIR_PIN) : pir(PIR_PIN) {}
 
 void TaskPirPresence::init() {
-  isVehiclePresent=false;
-  return isVehiclePresent;
 }
 
 void TaskPirPresence::update() {
@@ -27,5 +26,5 @@ void TaskPirPresence::update() {
 }
 
 bool TaskPirPresence::isVehiclePresent() {
-  return Pir.detectMotion();
+  return pir.detectMotion();
 }

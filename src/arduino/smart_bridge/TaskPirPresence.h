@@ -5,12 +5,12 @@
 
 class TaskPirPresence {
 public:
-  TaskPirPresence();
+  TaskPirPresence(int PIR_PIN);
 
   void init();
   void update();
 
 private:
   bool isVehiclePresent();
-  Pir pirSensor;
+  Pir pir;
 };

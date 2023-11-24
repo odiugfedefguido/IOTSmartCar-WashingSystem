@@ -5,7 +5,7 @@
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
-#include "Scheduler.h"
+//#include "Scheduler.h"
 #include "StateMachine.h"
 
 #define START_BUTTON_PIN 7
@@ -73,7 +73,7 @@ void loop()
     case LEAVE_AREA:
       // Logica
       break;
-    case MAINTENANCE_REQUIRED
+    case MAINTENANCE_REQUIRED:
       // Logica
       break;
   }
