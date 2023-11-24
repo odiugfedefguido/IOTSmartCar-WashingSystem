@@ -1,5 +1,5 @@
-#define DEBUG 1
-#define SILENT 1
+#define DEBUG true
+#define SILENT true
 
 bool hasGateBeenOpened = 0;
 
