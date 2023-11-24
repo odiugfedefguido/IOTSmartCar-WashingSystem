@@ -5,6 +5,7 @@
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
+#include "Scheduler.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -16,6 +17,26 @@
 #define SONAR_ECHOPIN 9
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
+#define N2 10
+#define N3 15
+#define N4 20
+#define MINDIST 5
+#define MAXDIST 15
+#define MAXTEMP 30
+
+// Variabili di stato
+enum SystemState {
+  OFF,
+  WELCOME,
+  PROCEED_TO_WASHING_AREA,
+  READY_TO_WASH,
+  WASHING,
+  WASHING_COMPLETE,
+  LEAVE_AREA,
+  MAINTENANCE_REQUIRED
+};
+
+SystemState currentState = OFF;
 
 //pin temperatura
 const int analogPin = A0;
@@ -50,6 +71,7 @@ void setup()
   textLCD->init();
   textLCD->showText("Test");*/
 
+  /*
   //gate test
   gateServo.attach();
   Serial.println("Gate attached!");
@@ -108,9 +130,10 @@ void debug() {
   Serial.println(distance);
   delay(200);  */
 
+  /*
   //temp
   float temperature = temperatureSensor.getTemperature();
   Serial.println(temperature);  
-  delay(1000);
+  delay(1000);*/
 
 }
