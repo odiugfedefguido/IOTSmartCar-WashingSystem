@@ -4,7 +4,7 @@
 #include "Pir.h"
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
-#include "temp.h"
+#include "TemperatureSensor.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -18,7 +18,8 @@
 #define N1 5 //tempo n1 per considerare macchina nel checkin
 
 //pin temperatura
-//const int analogPin = A0;
+const int analogPin = A0;
+TemperatureSensor temperatureSensor(analogPin);
 
 //TemperatureSensor temperatureSensor(analogPin);
 
@@ -108,8 +109,8 @@ void debug() {
   delay(200);  */
 
   //temp
-  /*float temperature = temperatureSensor.getTemperature();
-  Serial.println(d);
-  delay(200);*/
+  float temperature = temperatureSensor.getTemperature();
+  Serial.println(temperature);  
+  delay(1000);
 
 }
