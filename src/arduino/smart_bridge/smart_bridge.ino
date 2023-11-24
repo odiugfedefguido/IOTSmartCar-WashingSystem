@@ -33,8 +33,11 @@ Display* textLCD = new Display();
 //Button* startButton = new Button(START_BUTTON_PIN);
 //Led* ledGreen1 = new Led(LED_GREEN1);
 
+//int potpin = A0;  // analog pin used to connect the potentiometer
+//int val;    // variable to read the value from the analog pin
+
 Button startButton(START_BUTTON_PIN);
-ServoMotor gateServo(GATE_PIN);
+//ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
 Led ledGreen1(LED_GREEN1);
 Led ledGreen2 (LED_GREEN2);
@@ -49,10 +52,13 @@ void setup()
   textLCD->init();
   textLCD->showText("Test");
 
-  gateServo.attach();
-  Serial.println("Gate attached!");*/
+  //gate test
   gateServo.attach();
   Serial.println("Gate attached!");
+  gateServo.attach();
+  Serial.println("Gate attached!");*/
+
+  //sensor test
   //distanceSensor.setup(); //
  //temperatureSensor.setup(); //
 
@@ -68,21 +74,30 @@ void loop()
 }
 
 void debug() {
+/*
+  //parte del servo
+  val = analogRead(potpin);            // reads the value of the potentiometer (value between 0 and 1023)
+  val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+  gateServo.write(val);// sets the servo position according to the scaled value
+  Serial.println(val);
+  delay(15);*/
 
-  gateServo.write(180);
+  //parte dei led
   /*ledGreen1.turnOn();
   ledGreen2.turnOn();
   ledRed.turnOn();
 
+  //parte dei bottoni
   if (startButton.isPressed()) {
       Serial.println("Button START is pressed.");
   }*/
 
-  /*if (pirSensor.detectMotion())
+  //parte del pir
+  if (pirSensor.detectMotion())
   {
       ledGreen1.turnOn(); 
       Serial.println("Motion detected!");
-  }*/
+  }
 
   //sonar
   /*float d = getDistance();

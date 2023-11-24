@@ -11,7 +11,7 @@ void ServoMotor::attach()
 }
 
 void ServoMotor::write(int angle)
-{//SISTEMARE ANGOLO
+{
   servo.write(angle);
 }
 
