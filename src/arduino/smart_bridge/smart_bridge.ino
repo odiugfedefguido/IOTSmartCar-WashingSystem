@@ -3,7 +3,7 @@
 #include "Led.h"
 #include "Pir.h"
 #include "ServoMotor.h"
-#include "Sonar.h"
+#include "UltrasonicSensor.h"
 #include "temp.h"
 
 #define START_BUTTON_PIN 7
@@ -13,10 +13,7 @@
 #define PIR_PIN 13
 #define GATE_PIN 5
 
-
-//pin del sonar
-//const int trigPin = ?;
-//const int echoPin = ?;
+#define N1 5 //tempo n1 per considerare macchina nel checkin
 
 //pin temperatura
 //const int analogPin = A0;
@@ -25,7 +22,15 @@
 
 //DistanceSensor distanceSensor(trigPin, echoPin);
 
-#define N1 5 //tempo n1 per considerare macchina nel checkin
+
+
+//sonar
+const int SONAR_TRIGPIN = 9;
+const int SONAR_ECHOPIN  = 10;
+
+UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
+
+
 
 void debug();
 
@@ -100,9 +105,9 @@ void debug() {
   }
 
   //sonar
-  /*float d = getDistance();
-  Serial.println(d);
-  delay(200); */
+  float distance = ultrasonicSensor.getDistance();
+  Serial.println(distance);
+  delay(200);  
 
   //temp
   /*float temperature = temperatureSensor.getTemperature();
