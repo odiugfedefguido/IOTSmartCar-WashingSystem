@@ -1,4 +1,4 @@
-#include "TemperatureSensor.h"
+#include "temp.h"
 #include <Arduino.h>
 
 TemperatureSensor::TemperatureSensor(int analogPin) {

@@ -3,8 +3,8 @@
 #include "Led.h"
 #include "Pir.h"
 #include "ServoMotor.h"
-#include "DistanceSensor.h"
-#include "TemperatureSensor.h"
+#include "Sonar.h"
+#include "temp.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -21,9 +21,9 @@
 //pin temperatura
 //const int analogPin = A0;
 
-TemperatureSensor temperatureSensor(analogPin);
+//TemperatureSensor temperatureSensor(analogPin);
 
-DistanceSensor distanceSensor(trigPin, echoPin);
+//DistanceSensor distanceSensor(trigPin, echoPin);
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
 
@@ -53,8 +53,12 @@ void setup()
   Serial.println("Gate attached!");*/
   gateServo.attach();
   Serial.println("Gate attached!");
-  distanceSensor.setup(); //
- temperatureSensor.setup(); //
+  //distanceSensor.setup(); //
+ //temperatureSensor.setup(); //
+
+  //sonar
+ //pinMode(trigPin, OUTPUT);
+ //pinMode(echoPin, INPUT);
 }
 
 void loop()
