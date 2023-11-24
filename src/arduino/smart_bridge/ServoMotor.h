@@ -10,6 +10,8 @@ public:
   void attach();
   void write(int angle);
   void detach();
+  void openGate();
+  void closeGate();
 
 private:
   int GATE_PIN;

@@ -19,3 +19,13 @@ void ServoMotor::detach()
 {
   servo.detach();
 }
+
+void ServoMotor::openGate()
+{
+  write(90);
+}
+
+void ServoMotor::closeGate()
+{
+  write(-90);
+}
