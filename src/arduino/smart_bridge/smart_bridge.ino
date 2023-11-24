@@ -3,6 +3,7 @@
 #include "Led.h"
 #include "Pir.h"
 #include "ServoMotor.h"
+#include "DistanceSensor.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -10,6 +11,13 @@
 #define LED_RED 11
 #define PIR_PIN 13
 #define GATE_PIN 5
+
+
+//pin del sonar
+//const int trigPin = ?;
+//const int echoPin = ?;
+
+DistanceSensor distanceSensor(trigPin, echoPin);
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
 
@@ -39,7 +47,7 @@ void setup()
   Serial.println("Gate attached!");*/
   gateServo.attach();
   Serial.println("Gate attached!");
-
+  distanceSensor.setup(); //
  
 }
 
@@ -65,4 +73,6 @@ void debug() {
       ledGreen1.turnOn(); 
       Serial.println("Motion detected!");
   }*/
+
+  float distance = distanceSensor.getDistance();//
 }
