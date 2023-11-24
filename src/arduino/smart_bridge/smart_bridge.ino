@@ -32,9 +32,6 @@ UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
 void debug();
 
 Display* textLCD = new Display();
-//variabili per il servo
-int potpin = A0;  // analog pin used to connect the potentiometer
-int val;    // variable to read the value from the analog pin
 
 Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
@@ -87,7 +84,7 @@ void debug() {
   if (startButton.isPressed()) {
       Serial.println("Button START is pressed.");
   }*/
-  
+  /*
   // Chiamare closeGate() per chiudere il gate
   gateServo.closeGate();
   delay(2000);  // Attendere per 2 secondi
@@ -95,7 +92,7 @@ void debug() {
   //parte del servo
   // Chiamare openGate() per aprire il gate
   gateServo.openGate();
-  delay(2000);  // Attendere per 2 secondi
+  delay(2000);  // Attendere per 2 secondi*/
 /*
   //parte del pir
   if (pirSensor.detectMotion())
