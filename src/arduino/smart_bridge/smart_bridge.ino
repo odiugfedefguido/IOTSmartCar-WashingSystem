@@ -5,7 +5,7 @@
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
-#include "Scheduler.h"
+// #include "Scheduler.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -24,6 +24,8 @@
 #define MINDIST 5
 #define MAXDIST 15
 #define MAXTEMP 30
+
+void debug();
 
 // Variabili di stato
 enum SystemState {
@@ -47,8 +49,6 @@ enum SystemState {
 
 SystemState currentState = OFF;
 
-void debug();
-
 TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
 UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
 Display display;
@@ -63,75 +63,13 @@ void setup()
 {
   Serial.begin(9600);
 
-  // LCD test
-  /*
-  textLCD->init();
-  textLCD->showText("Test");*/
-
-  /*
-  //gate test
-  gateServo.attach();
-  Serial.println("Gate attached!");
-
-
-  //sensor test
-  //distanceSensor.setup(); //
- //temperatureSensor.setup(); //
-
-  //sonar
- //pinMode(trigPin, OUTPUT);
- //pinMode(echoPin, INPUT);
-
+  temperatureSensor.setup();
   ultrasonicSensor.setup();
+  gateServo.setup();
   display.setup();
 }
 
 void loop()
 {
   debug();
-}
-
-void debug() {
-/*
-  //parte del servo
-*/
-
-  //parte dei led
-  /*ledGreen1.turnOn();
-  ledGreen2.turnOn();
-  ledRed.turnOn();
-
-  //parte dei bottoni
-  if (startButton.isPressed()) {
-      Serial.println("Button START is pressed.");
-  }*/
-  /*
-  // Chiamare closeGate() per chiudere il gate
-  gateServo.closeGate();
-  delay(2000);  // Attendere per 2 secondi
-
-  //parte del servo
-  // Chiamare openGate() per aprire il gate
-  gateServo.openGate();
-  delay(2000);  // Attendere per 2 secondi*/
-/*
-  //parte del pir
-  if (pirSensor.detectMotion())
-  {
-      ledGreen1.turnOn(); 
-      Serial.println("Motion detected!");
-  }
-
-  /*
-  //sonar
-  float distance = ultrasonicSensor.getDistance();
-  Serial.println(distance);
-  delay(200);  */
-
-  /*
-  //temp
-  float temperature = temperatureSensor.getTemperature();
-  Serial.println(temperature);  
-  delay(1000);*/
-
 }

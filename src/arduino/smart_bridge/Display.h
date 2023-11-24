@@ -2,12 +2,12 @@
 #define __DISPLAY__
 
 enum Message {
-  WELCOME,
-  PROCEED,
-  READY,
-  COMPLETE1,
-  COMPLETE2,
-  PROBLEM
+  MSG_WELCOME,
+  MSG_PROCEED,
+  MSG_READY,
+  MSG_COMPLETE1,
+  MSG_COMPLETE2,
+  MSG_PROBLEM
 };
 
 class Display

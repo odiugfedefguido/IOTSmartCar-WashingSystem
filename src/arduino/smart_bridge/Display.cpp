@@ -21,31 +21,31 @@ void Display::showText(Message message)
 
   switch (message)
   {
-    case WELCOME:
+    case MSG_WELCOME:
       lcd.setCursor(4, 0);
       lcd.print("Welcome");
       break;
-    case PROCEED:
+    case MSG_PROCEED:
       lcd.setCursor(1, 0);
       lcd.print("Proceed to the");
       lcd.setCursor(2, 1);
       lcd.print("Washing Area");
       break;
-    case READY:
+    case MSG_READY:
       lcd.setCursor(1, 0);
       lcd.print("Ready to Wash");
       break;
-    case COMPLETE1:
+    case MSG_COMPLETE1:
       lcd.setCursor(0, 0);
       lcd.print("Washing complete.");
       break;
-    case COMPLETE2:
+    case MSG_COMPLETE2:
       lcd.setCursor(1, 0);
       lcd.print("You can leave");
       lcd.setCursor(3, 1);
       lcd.print("the area.");
       break;
-    case PROBLEM:
+    case MSG_PROBLEM:
       lcd.setCursor(0, 0);
       lcd.print("Detected a Problem");
       lcd.setCursor(0, 1);

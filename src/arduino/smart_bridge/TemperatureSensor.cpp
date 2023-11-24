@@ -6,15 +6,19 @@ TemperatureSensor::TemperatureSensor(int analogPin) {
 }
 
 void TemperatureSensor::setup() {
-    // Aggiungi eventuali inizializzazioni del sensore, se necessario
+    // add initializations if necessary
 }
 
 float TemperatureSensor::getTemperature() {
-    // Leggi il valore analogico
+    // Read the analog value
     int sensorValue = analogRead(analogPin);
 
-    // Converti il valore analogico in temperatura in gradi Celsius
-    float temperature = (sensorValue / 1023.0) * 500.0;
+    // Convert that reading into voltage
+    // Replace 5.0 with 3.3, if you are using a 3.3V Arduino
+    float voltage = sensorValue * (5.0 / 1024.0);
+
+    // Convert the voltage into the temperature in Celsius
+    float temperature = (voltage - 0.5) * 100;
 
     return temperature;
 }
