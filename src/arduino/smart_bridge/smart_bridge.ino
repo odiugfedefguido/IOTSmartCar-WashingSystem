@@ -31,13 +31,13 @@ UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
 
 void debug();
 
-Display* textLCD = new Display();
 //Button* startButton = new Button(START_BUTTON_PIN);
 //Led* ledGreen1 = new Led(LED_GREEN1);
 
 //int potpin = A0;  // analog pin used to connect the potentiometer
 //int val;    // variable to read the value from the analog pin
 
+Display display;
 Button startButton(START_BUTTON_PIN);
 //ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
@@ -69,6 +69,7 @@ void setup()
  //pinMode(echoPin, INPUT);
 
  ultrasonicSensor.setup();
+ display.setup();
 }
 
 void loop()
@@ -114,5 +115,7 @@ void debug() {
   /*float temperature = temperatureSensor.getTemperature();
   Serial.println(d);
   delay(200);*/
+
+  display.showText(WELCOME);
 
 }
