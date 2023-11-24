@@ -1,0 +1,34 @@
+elab iot 2
+-) se non ci sono veicoli nella zona 1 sistema va in sleep
+-) quando arriva un veicolo che viene rilevato dal PIR nella zona 1 --> L1 Green si accende + "Welcome" mex nel LCD
+-) dopo N1 secondi che il veicolo è nella zona 1, il gate si apre e il veicolo va alla zona 2 --> L2 Red inizia a lampeggiare ogni 0.1 sec + "Proceed to the Washing Area" mex nel LCD
+-) entrata del veicolo nella zona 2 è rilevata dal SONAR 
+-) se la distanza misurata dal veicolo al sonar è minore di MINDIST per N2 sec il veicolo è considerato dentro la zona 2 --> gate si chiude + L2 Red diventa accesa (smette di lampeggiare quindi) + "Ready to Wash" mex nel LCD
+-) user schiaccia START button --> lavaggio inizia e dura N3 sec + L2 Red lampeggia ogni 0.5 sec per la durata del lavaggio + conudown/barra che si carica nel LCD
+-) finiti i N3 sec finisce anche il lavaggio --> L2 Red si spegne + L3 Green si accende fissa + "Washing complete, you can leave the area" mex nel LCD + gate si apre
+-) la macchina si considera uscita solo quando il sonar misura una distanza più grande di MAXDIST per un tempo di N4 sec --> gate si chiude + L3 Green si spegne
+
+
+-) compiti pc console dashboard (= GUI) --> verrà scritto in java o altri linguaggi!!!
+	- monitora lo stato e il funzionamento del lavaggio e interviene se necessario
+	- visualizza il numero totale di lavaggi fatti fino a quel momento
+	- visualizza lo stato corrente del washing machine (??)
+	- visualizza la temperatura che è stata monitorata dal TEMP SENSOR --> se è 
+	  più alta di MAXTEMP per N4 sec allora il lavaggio si ferma + "Maintenance required"
+	  mex mostrato nel PC console + "Detected a Problem - Please Wait" mex nel LCD
+	- fornisce un bottone "Maintenance done" per avvisare che il problema è stato 
+	  verificato e risolto --> lavaggio continua
+
+- si devono usare le architetture task-based e synchronous Finite State Machines!!!!
+
+--------------------------
+abbiamo:
+- N1, N2, N3, N4 TEMPI DIVERSI
+- L1, L2, L3 LUCI DIVERSE
+- 1 BOTTONE PER LO START
+- GATE
+- PIR
+- SENSORE MOVIMENTO
+- SENORE TEMPERATURA
+- LCD
+- VAR MINDIST, MAXDIST, MAXTEMP
