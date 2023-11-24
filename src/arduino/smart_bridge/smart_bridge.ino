@@ -5,6 +5,7 @@
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
+#include "Scheduler.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -17,6 +18,34 @@
 #define TEMPERATURE_PIN A0
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
+#define N2 10
+#define N3 15
+#define N4 20
+#define MINDIST 5
+#define MAXDIST 15
+#define MAXTEMP 30
+
+// Variabili di stato
+enum SystemState {
+  OFF,
+  // car presence detector detect car
+  WELCOME, // green light is on, ...
+  // N1 seconds pass
+  PROCEED_TO_WASHING_AREA, // gate opens, ...
+  // car distance detector detects car with distance < M1 for N2 seconds
+  READY_TO_WASH, // gate closes, ...
+  // button start pressed
+  WASHING, // light blinks, countdown
+  // N3 seconds pass
+  WASHING_COMPLETE, // gate opens, ...
+  // car distance detector measures car distance > M2 for N4 seconds
+  LEAVE_AREA, // gate closes
+  // from washing: temperature too high
+  MAINTENANCE_REQUIRED
+  // button on PC pressed -> WASHING
+};
+
+SystemState currentState = OFF;
 
 void debug();
 
@@ -39,6 +68,7 @@ void setup()
   textLCD->init();
   textLCD->showText("Test");*/
 
+  /*
   //gate test
   gateServo.attach();
   Serial.println("Gate attached!");
@@ -98,9 +128,10 @@ void debug() {
   Serial.println(distance);
   delay(200);  */
 
+  /*
   //temp
   float temperature = temperatureSensor.getTemperature();
   Serial.println(temperature);  
-  delay(1000);
+  delay(1000);*/
 
 }
