@@ -15,6 +15,7 @@
 #define GATE_PIN 5
 #define SONAR_TRIGPIN 10
 #define SONAR_ECHOPIN 9
+#define TEMPERATURE_PIN A0
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
 #define N2 10
@@ -38,23 +39,11 @@ enum SystemState {
 
 SystemState currentState = OFF;
 
-//pin temperatura
-const int analogPin = A0;
-TemperatureSensor temperatureSensor(analogPin);
-
-//TemperatureSensor temperatureSensor(analogPin);
-
-//DistanceSensor distanceSensor(trigPin, echoPin);
-
-
-UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
-
-
-
 void debug();
 
-Display* textLCD = new Display();
-
+TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
+UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
+Display display;
 Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
@@ -86,6 +75,7 @@ void setup()
  //pinMode(echoPin, INPUT);
 
  ultrasonicSensor.setup();
+ display.setup();
 }
 
 void loop()
@@ -135,5 +125,7 @@ void debug() {
   float temperature = temperatureSensor.getTemperature();
   Serial.println(temperature);  
   delay(1000);*/
+
+  display.showText(WELCOME);
 
 }
