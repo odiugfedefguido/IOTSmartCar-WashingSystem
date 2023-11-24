@@ -6,6 +6,7 @@
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
 //#include "Scheduler.h"
+#include "Timer.h"
 #include "StateMachine.h"
 
 #define START_BUTTON_PIN 7
@@ -26,6 +27,8 @@
 #define MAXDIST 15
 #define MAXTEMP 30
 
+Timer timer;
+
 void debug();
 
 TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
@@ -38,19 +41,7 @@ Led ledGreen1(LED_GREEN1);
 Led ledGreen2 (LED_GREEN2);
 Led ledRed (LED_RED);
 
-void setup()
-{
-  Serial.begin(9600);
-
-  temperatureSensor.setup();
-  ultrasonicSensor.setup();
-  gateServo.setup();
-  display.setup();
-}
-
-void loop()
-{
-  debug();
+void step(){
   switch (StateMachine::getCurrentState()) {
     case OFF:
       // Logica per lo stato OFF
@@ -77,4 +68,22 @@ void loop()
       // Logica
       break;
   }
+}
+
+void setup()
+{
+  Serial.begin(9600);
+
+  temperatureSensor.setup();
+  ultrasonicSensor.setup();
+  gateServo.setup();
+  display.setup();
+
+  timer.setupPeriod(50);
+}
+
+void loop()
+{
+  timer.waitForNextTick();
+  step();
 }
