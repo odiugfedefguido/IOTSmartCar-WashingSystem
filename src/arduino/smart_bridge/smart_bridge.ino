@@ -52,8 +52,8 @@ void setup()
  //pinMode(trigPin, OUTPUT);
  //pinMode(echoPin, INPUT);
 
- ultrasonicSensor.setup();
- display.setup();
+  ultrasonicSensor.setup();
+  display.setup();
 }
 
 void loop()
@@ -102,7 +102,5 @@ void debug() {
   float temperature = temperatureSensor.getTemperature();
   Serial.println(temperature);  
   delay(1000);
-
-  display.showText(WELCOME);
 
 }

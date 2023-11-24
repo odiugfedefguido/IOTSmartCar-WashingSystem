@@ -5,7 +5,8 @@ enum Message {
   WELCOME,
   PROCEED,
   READY,
-  COMPLETE,
+  COMPLETE1,
+  COMPLETE2,
   PROBLEM
 };
 
