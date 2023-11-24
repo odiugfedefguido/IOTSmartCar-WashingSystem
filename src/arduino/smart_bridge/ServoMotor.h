@@ -7,7 +7,7 @@ class ServoMotor
 {
 public:
   ServoMotor(int pin);
-  void attach();
+  void setup();
   void write(int angle);
   void detach();
   void openGate();

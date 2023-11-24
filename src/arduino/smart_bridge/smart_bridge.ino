@@ -42,27 +42,10 @@ void setup()
 {
   Serial.begin(9600);
 
-  // LCD test
-  /*
-  textLCD->init();
-  textLCD->showText("Test");
-
-
-  //gate test
-  gateServo.attach();
-  Serial.println("Gate attached!");
-
-
-  //sensor test
-  //distanceSensor.setup(); //
- //temperatureSensor.setup(); //
-
-  //sonar
- //pinMode(trigPin, OUTPUT);
- //pinMode(echoPin, INPUT);
-
- ultrasonicSensor.setup();
- display.setup();*/
+  temperatureSensor.setup();
+  ultrasonicSensor.setup();
+  gateServo.setup();
+  display.setup();
 }
 
 void loop()
@@ -94,51 +77,4 @@ void loop()
       // Logica
       break;
   }
-}
-
-void debug() {
-/*
-  //parte del servo
-*/
-
-  //parte dei led
-  /*ledGreen1.turnOn();
-  ledGreen2.turnOn();
-  ledRed.turnOn();
-
-  //parte dei bottoni
-  if (startButton.isPressed()) {
-      Serial.println("Button START is pressed.");
-  }*/
-  /*
-  // Chiamare closeGate() per chiudere il gate
-  gateServo.closeGate();
-  delay(2000);  // Attendere per 2 secondi
-
-  //parte del servo
-  // Chiamare openGate() per aprire il gate
-  gateServo.openGate();
-  delay(2000);  // Attendere per 2 secondi*/
-/*
-  //parte del pir
-  if (pirSensor.detectMotion())
-  {
-      ledGreen1.turnOn(); 
-      Serial.println("Motion detected!");
-  }
-
-  /*
-  //sonar
-  float distance = ultrasonicSensor.getDistance();
-  Serial.println(distance);
-  delay(200);  */
-
-  /*
-  //temp
-  float temperature = temperatureSensor.getTemperature();
-  Serial.println(temperature);  
-  delay(1000);*/
-
-  display.showText(WELCOME);
-
 }

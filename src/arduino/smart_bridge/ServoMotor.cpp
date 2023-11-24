@@ -2,11 +2,12 @@
 #include "Arduino.h"
 
 ServoMotor::ServoMotor(int pin) : GATE_PIN(pin) {
-  pinMode(GATE_PIN, INPUT);
+  // Empty
 }
 
-void ServoMotor::attach()
+void ServoMotor::setup()
 {
+  pinMode(GATE_PIN, INPUT);
   servo.attach(GATE_PIN);
 }
 
