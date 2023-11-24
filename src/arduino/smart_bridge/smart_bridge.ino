@@ -12,6 +12,8 @@
 #define LED_RED 11
 #define PIR_PIN 13
 #define GATE_PIN 5
+#define SONAR_TRIGPIN 10
+#define SONAR_ECHOPIN 9
 
 #define N1 5 //tempo n1 per considerare macchina nel checkin
 
@@ -22,11 +24,6 @@
 
 //DistanceSensor distanceSensor(trigPin, echoPin);
 
-
-
-//sonar
-const int SONAR_TRIGPIN = 9;
-const int SONAR_ECHOPIN  = 10;
 
 UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
 
@@ -70,6 +67,8 @@ void setup()
   //sonar
  //pinMode(trigPin, OUTPUT);
  //pinMode(echoPin, INPUT);
+
+ ultrasonicSensor.setup();
 }
 
 void loop()
@@ -104,10 +103,12 @@ void debug() {
       Serial.println("Motion detected!");
   }
 
+  /*
   //sonar
   float distance = ultrasonicSensor.getDistance();
   Serial.println(distance);
   delay(200);  
+  */
 
   //temp
   /*float temperature = temperatureSensor.getTemperature();
