@@ -4,6 +4,7 @@
 #include "Pir.h"
 #include "ServoMotor.h"
 #include "DistanceSensor.h"
+#include "TemperatureSensor.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
@@ -16,6 +17,11 @@
 //pin del sonar
 //const int trigPin = ?;
 //const int echoPin = ?;
+
+//pin temperatura
+//const int analogPin = A0;
+
+TemperatureSensor temperatureSensor(analogPin);
 
 DistanceSensor distanceSensor(trigPin, echoPin);
 
@@ -48,7 +54,7 @@ void setup()
   gateServo.attach();
   Serial.println("Gate attached!");
   distanceSensor.setup(); //
- 
+ temperatureSensor.setup(); //
 }
 
 void loop()
@@ -74,5 +80,14 @@ void debug() {
       Serial.println("Motion detected!");
   }*/
 
-  float distance = distanceSensor.getDistance();//
+  //sonar
+  /*float d = getDistance();
+  Serial.println(d);
+  delay(200); */
+
+  //temp
+  /*float temperature = temperatureSensor.getTemperature();
+  Serial.println(d);
+  delay(200);*/
+
 }
