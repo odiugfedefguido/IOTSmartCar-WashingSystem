@@ -1,8 +1,7 @@
 #ifndef PIR_H
 #define PIR_H
 
-class Pir
-{
+class Pir {
 public:
   Pir(int pin);
   bool detectMotion();
