@@ -1,5 +1,6 @@
 package it.unibo.esiot.smart_bridge.connector;
 
+import it.unibo.esiot.smart_bridge.DashboardController;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -16,12 +17,18 @@ public class MessageService implements Runnable, SerialPortEventListener {
     private final SerialPort serialPort;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final BlockingQueue<String> messageBuffer;
+    private final DashboardController dashboardController;
 
-    public MessageService(String port, BlockingQueue<String> messageBuffer) {
+    private String partialMessage = "";
+
+    public MessageService(String port, BlockingQueue<String> messageBuffer, DashboardController dashboardController) {
         Objects.requireNonNull(port, "Port must not be null.");
         Objects.requireNonNull(messageBuffer, "Message buffer must not be null.");
+        Objects.requireNonNull(dashboardController, "Dashboard controller must not be null.");
+
         this.serialPort = new SerialPort(port);
         this.messageBuffer = messageBuffer;
+        this.dashboardController = dashboardController;
     }
 
     public void shutdown() {
@@ -73,7 +80,27 @@ public class MessageService implements Runnable, SerialPortEventListener {
         if(event.isRXCHAR() && event.getEventValue() > 0) {
             try {
                 String receivedData = serialPort.readString(event.getEventValue());
-                System.out.print(receivedData);
+                int separatorIndex = receivedData.indexOf("\n");
+
+                if (separatorIndex > -1) {
+                    String message = partialMessage + receivedData.substring(0, separatorIndex);
+                    partialMessage = receivedData.substring(separatorIndex + 1);
+
+                    switch (message.substring(0, 4)) {
+                        case "TEMP":
+                            dashboardController.displayTemperature(message.split(";")[1]);
+                            break;
+                        case "STAT":
+                            dashboardController.displayStatus(message.split(";")[1]);
+                            break;
+                        case "COMP":
+                            dashboardController.increaseWashes();
+                            break;
+                    }
+                } else {
+                    partialMessage += receivedData;
+                }
+                // System.out.print(receivedData);
             }
             catch (SerialPortException ex) {
                 System.out.println("Error in receiving string from COM-port: " + ex);
