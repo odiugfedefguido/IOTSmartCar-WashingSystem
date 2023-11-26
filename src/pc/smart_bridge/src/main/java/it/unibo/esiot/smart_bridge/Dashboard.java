@@ -1,10 +1,14 @@
 package it.unibo.esiot.smart_bridge;
 
+import it.unibo.esiot.smart_bridge.connector.ExecutorServiceHelper;
 import it.unibo.esiot.smart_bridge.connector.MessageService;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import jssc.SerialPortList;
 
@@ -22,6 +26,19 @@ public class Dashboard extends Application {
 
         fxmlLoader.setControllerFactory((Callback<Class<?>, Object>) controllerClass -> {
             return new DashboardController();
+        });
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                try {
+                    ExecutorServiceHelper.shutdownAndAwaitTermination(executor);
+                    Platform.exit();
+                    System.exit(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
