@@ -8,14 +8,11 @@ import jssc.SerialPortException;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class MessageService implements Runnable, SerialPortEventListener {
 
     private final SerialPort serialPort;
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final BlockingQueue<String> messageBuffer;
     private final DashboardController dashboardController;
 
@@ -86,16 +83,18 @@ public class MessageService implements Runnable, SerialPortEventListener {
                     String message = partialMessage + receivedData.substring(0, separatorIndex);
                     partialMessage = receivedData.substring(separatorIndex + 1);
 
-                    switch (message.substring(0, 4)) {
-                        case "TEMP":
-                            dashboardController.displayTemperature(message.split(";")[1]);
-                            break;
-                        case "STAT":
-                            dashboardController.displayStatus(message.split(";")[1]);
-                            break;
-                        case "COMP":
-                            dashboardController.increaseWashes();
-                            break;
+                    if (message.length() > 4) {
+                        switch (message.substring(0, 4)) {
+                            case "TEMP":
+                                dashboardController.displayTemperature(message.split(";")[1]);
+                                break;
+                            case "STAT":
+                                dashboardController.displayStatus(message.split(";")[1]);
+                                break;
+                            case "COMP":
+                                dashboardController.increaseWashes();
+                                break;
+                        }
                     }
                 } else {
                     partialMessage += receivedData;
