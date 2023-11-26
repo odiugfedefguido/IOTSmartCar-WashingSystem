@@ -1,22 +1,29 @@
 package it.unibo.esiot.smart_bridge;
 
+import it.unibo.esiot.smart_bridge.connector.MessageService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import jssc.SerialPortList;
 
 import java.io.IOException;
+import java.util.concurrent.*;
 
 public class Dashboard extends Application {
 
-    private String PORT;
+    private static ExecutorService executor = Executors.newSingleThreadExecutor();
+    private static final BlockingQueue<String> messageBuffer = new ArrayBlockingQueue<>(10, true);
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.PORT = getParameters().getRaw().get(0);
-        System.out.println(this.PORT);
         FXMLLoader fxmlLoader = new FXMLLoader(Dashboard.class.getResource("hello-view.fxml"));
+
+        fxmlLoader.setControllerFactory((Callback<Class<?>, Object>) controllerClass -> {
+            return new DashboardController();
+        });
+
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -25,6 +32,7 @@ public class Dashboard extends Application {
 
     public static void main(String[] args) {
         if (args.length > 0) {
+            executor.submit(new MessageService(args[0], messageBuffer));
             launch(args);
         } else {
             /* detect serial ports */
