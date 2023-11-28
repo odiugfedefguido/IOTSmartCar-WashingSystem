@@ -2,10 +2,10 @@
 #include "Arduino.h"
 
 volatile bool timerFlag;
-
+/*
 ISR(TIMER1_COMPA_vect){
   timerFlag = true;
-}
+}*/
 
 Timer::Timer(){
   timerFlag = false;  
