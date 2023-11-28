@@ -2,8 +2,13 @@
 #include "Arduino.h"
 
 volatile bool timerFlag;
+<<<<<<< HEAD
 
 /*ISR(TIMER2_COMPA_vect){
+=======
+/*
+ISR(TIMER1_COMPA_vect){
+>>>>>>> 448be674c094ec39519c0f08d856e9f52ed0c6dd
   timerFlag = true;
 }*/
 
