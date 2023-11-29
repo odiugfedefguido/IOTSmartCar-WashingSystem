@@ -24,6 +24,7 @@ void step(){
       break;
     case READY_TO_WASH:
       // Logica qua
+      
       break;
     case WASHING:
       // Logica
