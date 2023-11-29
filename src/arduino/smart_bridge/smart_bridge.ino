@@ -22,7 +22,7 @@
 #define N2 10
 #define N3 15
 #define N4 20
-#define MINDIST 5
+#define MINDIST 0.03
 #define MAXDIST 15
 #define MAXTEMP 30
 
@@ -32,7 +32,7 @@ Scheduler sched;
 void debug();
 
 TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
-UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN);
+UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
 Display display;
 Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
@@ -59,7 +59,13 @@ void setup()
 
 void loop()
 {
+  
+  ultrasonicSensor.carOut();
+  Serial.println("loop");
   sched.schedule();
   timer.waitForNextTick();
   step();
+  
+
+  
 }
