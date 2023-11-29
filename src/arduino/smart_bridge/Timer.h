@@ -9,7 +9,7 @@ public:
   /* period in ms */
   void setupPeriod(int period);  
   void waitForNextTick();
-
+  unsigned long elapsedTime(long unsigned int startTime);
 };
 
 

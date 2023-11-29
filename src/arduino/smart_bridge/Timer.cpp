@@ -2,10 +2,10 @@
 #include "Arduino.h"
 
 volatile bool timerFlag;
-
+/*
 ISR(TIMER1_COMPA_vect){
   timerFlag = true;
-}
+}*/
 
 Timer::Timer(){
   timerFlag = false;  
@@ -73,6 +73,10 @@ void Timer::setupPeriod(int period){
 void Timer::waitForNextTick(){
   /* wait for timer signal */
   while (!timerFlag){}
-  timerFlag = false;
-  
+  timerFlag = false; 
+}
+
+unsigned long Timer::elapsedTime(unsigned long startTime) {
+  // Restituisci il tempo trascorso in millisecondi da startTime
+  return millis() - startTime;
 }

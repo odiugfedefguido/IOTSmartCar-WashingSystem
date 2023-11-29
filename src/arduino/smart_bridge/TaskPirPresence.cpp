@@ -1,27 +1,27 @@
-/**
-*-) se non ci sono veicoli nella zona 1 sistema va in sleep -->gestire con scheduler ad ogni tick
-*-) quando arriva un veicolo che viene rilevato dal PIR nella zona 1 --> L1 Green si accende + "Welcome" mex nel LCD
-*-) dopo N1 secondi che il veicolo è nella zona 1, il gate si apre e il veicolo va alla zona 2 
-*-) finito l'autolavaggio il gate si apre
-*-) la macchina si considera uscita solo quando il sonar misura una distanza più grande di MAXDIST per un tempo di N4 sec --> gate si chiude + L3 Green si spegne
-**/
-
-//il pir rivela una macchina 
 #include "Arduino.h"
 #include "TaskPirPresence.h"
 #include "StateMachine.h"
+#include "SleepMode.h"
 #include "Pir.h"
-
-TaskPirPresence::TaskPirPresence(int PIR_PIN) : pir(PIR_PIN) {}
+ 
+TaskPirPresence::TaskPirPresence(int PIR_PIN, int L1_PIN) : pir(PIR_PIN), L1_PIN(L1_PIN) {}
 
 void TaskPirPresence::init() {
+  pinMode(L1_PIN, OUTPUT);
+  setupInterrupt();
 }
 
 void TaskPirPresence::update() {
   if (isVehiclePresent()) {
     // Logica per la presenza del veicolo--> passa al prossimo stato
     Serial.println("Detected a vehicle. Goes to the next state");
+    exitSleepMode();
     StateMachine::transitionTo(WELCOME);
+    // Accendi la luce L1
+    digitalWrite(L1_PIN, HIGH);
+    Serial.println("nuovo stato: WELCOME");
+  } else {
+    enterSleepMode();
   }
 }
 

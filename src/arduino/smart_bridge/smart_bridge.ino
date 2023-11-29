@@ -5,7 +5,7 @@
 #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
-//#include "Scheduler.h"
+#include "Scheduler.h"
 #include "Timer.h"
 #include "StateMachine.h"
 
@@ -19,7 +19,6 @@
 #define SONAR_ECHOPIN 9
 #define TEMPERATURE_PIN A0
 
-#define N1 5 //tempo n1 per considerare macchina nel checkin
 #define N2 10
 #define N3 15
 #define N4 20
@@ -28,6 +27,7 @@
 #define MAXTEMP 30
 
 Timer timer;
+Scheduler sched;
 
 void debug();
 
@@ -41,38 +41,11 @@ Led ledGreen1(LED_GREEN1);
 Led ledGreen2 (LED_GREEN2);
 Led ledRed (LED_RED);
 
-void step(){
-  switch (StateMachine::getCurrentState()) {
-    case OFF:
-      // Logica per lo stato OFF
-      break;
-    case WELCOME:
-      // Logica per lo stato WELCOME
-      break;
-    case PROCEED_TO_WASHING_AREA:
-      // Logica per lo stato PROCEED_TO_WASHING_AREA
-      break;
-    case READY_TO_WASH:
-      // Logica qua
-      break;
-    case WASHING:
-      // Logica
-      break;
-    case WASHING_COMPLETE:
-      // Logica
-      break;
-    case LEAVE_AREA:
-      // Logica
-      break;
-    case MAINTENANCE_REQUIRED:
-      // Logica
-      break;
-  }
-}
-
 void setup()
 {
   Serial.begin(9600);
+
+  sched.init(50);
 
   temperatureSensor.setup();
   ultrasonicSensor.setup();
@@ -80,10 +53,13 @@ void setup()
   display.setup();
 
   timer.setupPeriod(50);
+
+  //sched.addTask(TaskPirPresence);
 }
 
 void loop()
 {
+  sched.schedule();
   timer.waitForNextTick();
   step();
 }

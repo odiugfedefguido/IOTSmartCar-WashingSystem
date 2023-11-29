@@ -3,7 +3,7 @@
 // Variabili di stato
 enum SystemState {
   OFF, // system is on sleep mode
-  // car presence detector detect car
+  // car presence detector detect car -->taskpirpresence
   WELCOME, // green light is on, ...
   // N1 seconds pass
   PROCEED_TO_WASHING_AREA, // gate opens, ...
@@ -19,6 +19,8 @@ enum SystemState {
   MAINTENANCE_REQUIRED
   // button on PC pressed -> WASHING
 };
+
+void step();
 
 namespace StateMachine {
   void transitionTo(SystemState nextState);
