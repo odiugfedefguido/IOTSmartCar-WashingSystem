@@ -8,10 +8,10 @@ OPEN_SANS_HEADLINE = ("Open Sans", 34, "bold")
 OPEN_SANS_SMALL = ("Open Sans", 18, "normal") 
 
 class Dashboard:
-    count = 4
+    count = 0
     
     def __init__(self, port) -> None:
-        # self.arduino = SerialService(port=port)
+        self.arduino = SerialService(port)
 
         self.root = Tk()
         self.root.title("Smart Bridge Dashboard")
@@ -19,6 +19,7 @@ class Dashboard:
         self.temperature_var = StringVar()
         self.temperature_var.set("23,4")
         self.count_var = StringVar()
+        self.count_var.set(self.count)
         self.status_var = StringVar()
         self.status_var.set("WASHING")
 
@@ -54,10 +55,23 @@ class Dashboard:
 
 
     def update(self):
-        # TODO: Add content.
-        # print(self.arduino.read())
+        message = self.arduino.read()
+        parsed_message = str(message).replace('b\'', '').replace('\'', '').replace('\\r\\n', '').split(';')
+        print(parsed_message)
 
-        self.count += 1
-        self.count_var.set(format(self.count, '1.0f'))
+        type = parsed_message[0]
+        content = ''
 
+        if (len(parsed_message) == 2):
+            type = parsed_message[0]
+            content = parsed_message[1]
+
+        if type == 'COMP':
+            self.count += 1
+            self.count_var.set(self.count)
+        elif type == 'TEMP':
+            self.temperature_var.set(content)
+        elif type == 'STAT':
+            self.status_var.set(content)
+            
         self.root.after(200, self.update)

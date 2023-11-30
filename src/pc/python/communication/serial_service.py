@@ -4,7 +4,7 @@ import glob
 
 class SerialService:
     def __init__(self, port):
-        self.board = serial.Serial(port=PORT, baudrate=9600, timeout=.1) 
+        self.board = serial.Serial(port=port, baudrate=9600, timeout=.1) 
 
     def write(self, text):
         self.board.write(bytes(text, 'utf-8')) 
