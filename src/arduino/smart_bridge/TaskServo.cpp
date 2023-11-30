@@ -11,6 +11,13 @@ void TaskServo::init() {
   // Inizializza il task se necessario
 }
 
+//devi fare 4 case:
+
+//gate si apre dopo n1 sec nel PROCEED_TO_WASHING_AREA
+//gate si chiude dopo aver misurato una tot dist per n2 sec -->chiama taskdistanza fede
+//gate si apre dopo aver finito il lavaggio
+//gate si chiude quando misura una tot distanza per n4 sec-->chiama taskdistanza fede
+
 void TaskServo::update() {
   switch (StateMachine::getCurrentState()) {
     case PROCEED_TO_WASHING_AREA:
