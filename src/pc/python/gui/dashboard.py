@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+import tkinter.font as font
 
 from communication.serial_service import SerialService
 
@@ -11,7 +12,7 @@ class Dashboard:
     count = 0
     
     def __init__(self, port) -> None:
-        self.arduino = SerialService(port)
+        # self.arduino = SerialService(port)
 
         self.root = Tk()
         self.root.title("Smart Bridge Dashboard")
@@ -29,9 +30,11 @@ class Dashboard:
         self.root.after(200, self.update)
         self.root.mainloop()
 
+    def on_button_clicked(self):
+        print("Wow.")
+
     def create_gui(self):
-        (Label(self.root, text="SMART WASHING", font=OPEN_SANS_HEADLINE)
-         .pack())
+        Label(self.root, text="SMART WASHING", font=OPEN_SANS_HEADLINE).pack()
 
         row = Frame(self.root)
         self.create_frame(row, self.count_var, "washes so far", 1, 1)
@@ -41,6 +44,10 @@ class Dashboard:
         status_row = Frame(self.root)
         self.create_frame(status_row, self.status_var, "current status", 1, 1)
         status_row.pack()
+
+        button = Button(self.root, text="MAINTENANCE DONE", command=self.on_button_clicked)
+        button.pack()
+        button['state'] = 'disabled'
         
     def create_frame(self, parent, variable, label, row, column):
         frame = Frame(parent, padding=40)
@@ -55,6 +62,7 @@ class Dashboard:
 
 
     def update(self):
+        """
         message = self.arduino.read()
         parsed_message = str(message).replace('b\'', '').replace('\'', '').replace('\\r\\n', '').split(';')
         print(parsed_message)
@@ -73,5 +81,7 @@ class Dashboard:
             self.temperature_var.set(content)
         elif type == 'STAT':
             self.status_var.set(content)
+
+        """
             
         self.root.after(200, self.update)
