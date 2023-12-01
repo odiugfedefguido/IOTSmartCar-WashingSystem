@@ -7,7 +7,8 @@
 #include "TemperatureSensor.h"
 #include "Scheduler.h"
 #include "Timer.h"
-#include "TaskPirPresence.h"
+#include "BlinkTask.h"
+#include "TaskCheckin.h"
 #include "StateMachine.h"
 
 #define START_BUTTON_PIN 7
@@ -39,11 +40,10 @@ Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
 Led ledGreen1(LED_GREEN1);
-Led ledGreen2 (LED_GREEN2);
-Led ledRed (LED_RED);
+Led ledGreen2(LED_GREEN2);
+Led ledRed(LED_RED);
 
-
-//TaskPirPresence taskPirPresence(PIR_PIN, LED_RED);
+TaskCheckin taskCheckin(pirSensor, ledGreen1, ledGreen2, gateServo, display);
 
 
 void setup()
@@ -52,17 +52,17 @@ void setup()
 
   //sched.init(50);
 
-  //taskPirPresence.init();
+  taskCheckin.init();
 
   //temperatureSensor.setup();
   //ultrasonicSensor.setup();
   gateServo.setup();
   //display.setup();
 
-  timer.setupPeriod(50);
+  //timer.setupPeriod(50);
 
   //sched.addTask(TaskPirPresence);
-
+  delay(500);
 }
 
 void loop()
@@ -76,7 +76,7 @@ void loop()
     Serial.println("Nessun movimento rilevato.");
     digitalWrite(LED_BUILTIN, LOW);  // Spegni il LED incorporato
   }*/
-  //taskPirPresence.update();
+  taskCheckin.update();
   //ultrasonicSensor.carOut();
   Serial.println("loop");
   //sched.schedule();

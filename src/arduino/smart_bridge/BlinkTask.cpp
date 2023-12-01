@@ -1,20 +1,22 @@
+// BlinkTask.cpp
 #include "BlinkTask.h"
 
-BlinkTask::BlinkTask(int pin){
-  this->pin = pin;    
+BlinkTask::BlinkTask(Led& led) {
+  this->led = &led;
+  state = OFF;
 }
-  
-void BlinkTask::init(int period){
+
+void BlinkTask::init(int period) {
   Task::init(period);
-  led = new Led(pin); 
-  state = OFF;    
+  // Non è più necessario creare un nuovo oggetto Led, usiamo quello passato nel costruttore
+  state = OFF;
 }
-  
-void BlinkTask::tick(){
-  switch (state){
+
+void BlinkTask::tick() {
+  switch (state) {
     case OFF:
       led->turnOn();
-      state = ON; 
+      state = ON;
       break;
     case ON:
       led->turnOff();
