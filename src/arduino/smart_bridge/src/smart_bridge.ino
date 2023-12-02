@@ -4,7 +4,7 @@
 #include "components/sensors/TemperatureSensor.h"
 
 #include "components/actuators/Display.h"
-// #include "components/actuators/ServoMotor.h"
+#include "components/actuators/ServoMotor.h"
 
 #include "core/Scheduler.h"
 #include "core/StateMachine.h"
@@ -16,7 +16,7 @@
 
 #include "serial/MsgService.h"
 
-#define START_BUTTON_PIN 7
+#define START_BUTTON_PIN 2
 #define LED_GREEN1 12
 #define LED_GREEN2 8
 #define LED_RED 11
@@ -41,32 +41,33 @@ TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
 UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
 Display display;
 Button startButton(START_BUTTON_PIN);
-// ServoMotor gateServo(GATE_PIN);
+ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
 Led ledGreen1(LED_GREEN1);
 Led ledGreen2(LED_GREEN2);
 Led ledRed(LED_RED);
 
-//TaskCheckin taskCheckin(startButton, ledGreen1, ledGreen2, gateServo, display);
 // TaskProva taskProva(startButton, ledGreen1, ledGreen2, gateServo, display);
 
 
 void setup()
 {
   Serial.begin(9600);
-  scheduler.init(50);
+  scheduler.init(200); // base period
   MsgService.init();
+
+  // temperatureSensor.setup();
+  // ultrasonicSensor.setup();
+  //  gateServo.setup();
+  display.setup();
 
   Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(1000);
   scheduler.addTask(taskMaintenance);
 
-  //taskCheckin.init();
-
-  //temperatureSensor.setup();
-  //ultrasonicSensor.setup();
-  // gateServo.setup();
-  display.setup();
+  Task *taskCheckin = new TaskCheckin(OFF, startButton, ledGreen1, ledGreen2, gateServo, display, pirSensor);
+  taskCheckin->init(500);
+  scheduler.addTask(taskCheckin);
 }
 
 void loop()

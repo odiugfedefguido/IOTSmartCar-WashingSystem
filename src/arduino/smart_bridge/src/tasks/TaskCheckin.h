@@ -5,14 +5,15 @@
 #include "../components/actuators/Led.h"
 #include "../components/actuators/ServoMotor.h"
 #include "../components/actuators/Display.h"
+#include "../components/sensors/Pir.h"
 
-#include "BlinkTask.h"
+#include "Task.h"
 
-class TaskCheckin {
+class TaskCheckin : public Task {
 public:
-  TaskCheckin(Button& button, Led& led1, Led& led2, ServoMotor& servoGate, Display& display);
-  void init();
-  void update();
+  TaskCheckin(SystemState activeState, Button& button, Led& led1, Led& led2, ServoMotor& servoGate, Display& display, Pir& pirSensor);
+  void init(int period);
+  void tick();
 
 private:
   Button& button;
@@ -20,10 +21,9 @@ private:
   Led& led2;
   ServoMotor& gate;
   Display& lcd;
-  // BlinkTask blinkTask;
+  Pir& pirSensor;
 
-  //bool isVehiclePresent();
   bool vehicleDetected;
   unsigned long vehicleDetectedTime;
-  bool isPressed();
+  bool isVehiclePresent();
 };

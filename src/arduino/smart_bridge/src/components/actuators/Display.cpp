@@ -18,6 +18,7 @@ void Display::showText(Message message)
 {
   // Set the cursor on the third column and first row.
   lcd.clear();
+  lcd.backlight();
 
   switch (message)
   {
@@ -56,4 +57,9 @@ void Display::showText(Message message)
       lcd.print("Please Wait");
       break;
   }
+}
+
+void Display::turnOff() {
+  lcd.noBacklight();
+  lcd.clear();
 }

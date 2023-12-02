@@ -17,6 +17,7 @@ class Display
 public:
   void showText(Message message);
   void setup();
+  void turnOff();
 };
 
 #endif

@@ -3,8 +3,7 @@
 
 #include "../serial/MsgService.h"
 
-// static SystemState currentState = OFF;
-static SystemState currentState = MAINTENANCE_REQUIRED;
+static SystemState currentState = OFF;
 
 SystemState StateMachine::getCurrentState() {
   return currentState;
