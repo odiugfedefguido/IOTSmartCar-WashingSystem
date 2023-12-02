@@ -5,23 +5,29 @@
 #include "Display.h"
 #include "ServoMotor.h"
 #include "SleepMode.h"
-#include "Pir.h"
+#include "Button.h"
+//#include <EnableInterrupt.h>
 
-#define N1 15000 // 15sec
+#define N1 10000 // 10sec
 
-TaskCheckin::TaskCheckin(Pir& pir, Led& led1, Led& led2, ServoMotor& gate, Display& lcd)
-    : pir(pir), led1(led1), led2(led2), gate(gate), lcd(lcd) {
+TaskCheckin::TaskCheckin(Button& button, Led& led1, Led& led2, ServoMotor& gate, Display& lcd)
+    : button(button), led1(led1), led2(led2), gate(gate), lcd(lcd) {
   vehicleDetectedTime = 0;
   vehicleDetected = false;
   // TODO: blink task
 }
 
+
 void TaskCheckin::init() {
+  Serial.println("entra in init");
   setupInterrupt();
 }
 
 void TaskCheckin::update() {
-  if (isVehiclePresent()) {
+    Serial.println("entra in update");
+
+  if (isPressed()) {
+    Serial.println("entra in isPressed in update");
     exitSleepMode();
     Serial.println("UNSLEEP");
     delay(500);
@@ -52,15 +58,34 @@ void TaskCheckin::update() {
     vehicleDetected = false;
     vehicleDetectedTime = 0;
 
+    Serial.println("entra nell'else di update");
+
     // entra in sleep se non rivela niente
     enterSleepMode();
-    Serial.println("SLEEP");
-    delay(1000); // Attendiamo un secondo per consentire la stampa su seriale
   }
 }
 
+/*
 bool TaskCheckin::isVehiclePresent() {
   Serial.println("entra il veicolo");
   delay(50);
   return pir.detectMotion();
+}*/
+
+bool TaskCheckin::isPressed() {
+  Serial.println("entra in ispressed");
+
+  // Gestione debounce software
+  static unsigned long lastButtonPressTime = 0;
+  unsigned long currentTime = millis();
+
+  if (currentTime - lastButtonPressTime > 50) {  // Intervallo di debounce
+    if (button.isPressed()) {
+      Serial.println("bottone schiacciato");
+      lastButtonPressTime = currentTime;
+      return true;
+    }
+  }
+  return false;
 }
+

@@ -9,6 +9,7 @@
 #include "BlinkTask.h"
 #include "TaskCheckin.h"
 #include "TaskMaintenance.h"
+#include "TaskProva.h"
 #include "StateMachine.h"
 
 #define START_BUTTON_PIN 7
@@ -42,7 +43,9 @@ Led ledGreen1(LED_GREEN1);
 Led ledGreen2(LED_GREEN2);
 Led ledRed(LED_RED);
 
-//TaskCheckin taskCheckin(pirSensor, ledGreen1, ledGreen2, gateServo, display);
+//TaskCheckin taskCheckin(startButton, ledGreen1, ledGreen2, gateServo, display);
+// TaskProva taskProva(startButton, ledGreen1, ledGreen2, gateServo, display);
+
 
 void setup()
 {
@@ -53,8 +56,7 @@ void setup()
   taskMaintenance->init(1000);
   scheduler.addTask(taskMaintenance);
 
-  // taskCheckin.init();
-  // taskMaintenance.init();
+  //taskCheckin.init();
 
   //temperatureSensor.setup();
   //ultrasonicSensor.setup();
@@ -81,4 +83,8 @@ void loop()
     Serial.println("Nessun movimento rilevato.");
     digitalWrite(LED_BUILTIN, LOW);  // Spegni il LED incorporato
   }*/
+  
+  //taskProva.update();
+  Serial.println("loop");
+  
 }

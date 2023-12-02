@@ -6,9 +6,9 @@
 #include "Display.h"
 #include "BlinkTask.h"
 
-class TaskCheckin {
+class TaskProva {
 public:
-  TaskCheckin(Button& button, Led& led1, Led& led2, ServoMotor& servoGate, Display& display);
+  TaskProva(Button &button, Led &led1, Led &led2, ServoMotor &gate, Display &lcd);
   void init();
   void update();
 
@@ -20,8 +20,6 @@ private:
   Display& lcd;
   // BlinkTask blinkTask;
 
-  //bool isVehiclePresent();
-  bool vehicleDetected;
   unsigned long vehicleDetectedTime;
   bool isPressed();
 };

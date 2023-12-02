@@ -5,7 +5,7 @@
 
 extern bool motionDetected;
 
-void pirInterrupt();
+void buttonInterrupt();
 void setupInterrupt();
 void enterSleepMode();
 void exitSleepMode();

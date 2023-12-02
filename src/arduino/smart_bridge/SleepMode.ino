@@ -2,11 +2,16 @@
 #include "Pir.h"
 #include "SleepMode.h"
 #include "Led.h"
+#include "Button.h"
+//#include <EnableInterrupt.h>
 
 Led ledGreen7(LED_GREEN1);
 
+// Variabile di stato per indicare se il sistema deve svegliarsi
+volatile bool wakeUpRequested = false;
+
 void setupInterrupt() {
-  attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, RISING);
+  attachInterrupt(digitalPinToInterrupt(START_BUTTON_PIN), buttonInterrupt, RISING);
   Serial.println("interrupt settato");
 }
 
@@ -15,18 +20,29 @@ void enterSleepMode() {
   Serial.println("sleep");
   delay(50);
   ledGreen7.turnOff();
-
+  sei(); // Abilita gli interrupt
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
-  sei(); // Abilita gli interrupt
   sleep_mode();
-  exitSleepMode();
+  delay(500);
+
+  // Se la variabile di stato indica che il sistema deve svegliarsi, esegui l'uscita dallo sleep
+  if (wakeUpRequested) {
+    Serial.println("wakeuprequested->exitsleep");
+    wakeUpRequested = false;
+    exitSleepMode();
+  }
 }
 
 void exitSleepMode() {
-  ledGreen7.turnOn();
-
+    cli(); // Disabilita gli interrupt
+    Serial.println("exit sleep mode");
   sleep_disable(); // Disabilita la modalità sleep
-  cli(); // Disabilita gli interrupt
-  Serial.println("sleep finished");
+  ledGreen7.turnOn();
+  Serial.println("wake up");
+}
+
+void buttonInterrupt() {
+  // Imposta la variabile di stato per indicare che il sistema deve svegliarsi
+  wakeUpRequested = true;
 }
