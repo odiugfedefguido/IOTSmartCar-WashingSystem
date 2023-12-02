@@ -27,7 +27,7 @@ public class Dashboard extends Application {
 
     public static void main(String[] args) {
         if (args.length > 0) {
-            launch(args);
+             launch(args);
         } else {
             /* detect serial ports */
             System.out.println("Error. Pass the serial port as an argument.");

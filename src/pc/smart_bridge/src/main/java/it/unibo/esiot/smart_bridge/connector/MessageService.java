@@ -1,80 +1,84 @@
 package it.unibo.esiot.smart_bridge.connector;
 
-import it.unibo.esiot.smart_bridge.DashboardController;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
 import java.util.Objects;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-public class MessageService implements Runnable, SerialPortEventListener {
+public class MessageService extends Service<String> implements SerialPortEventListener {
 
     private final SerialPort serialPort;
-    private final BlockingQueue<String> messageBuffer;
-    private final DashboardController dashboardController;
-
     private String partialMessage = "";
 
-    public MessageService(String port, BlockingQueue<String> messageBuffer, DashboardController dashboardController) {
-        Objects.requireNonNull(port, "Port must not be null.");
-        Objects.requireNonNull(messageBuffer, "Message buffer must not be null.");
-        Objects.requireNonNull(dashboardController, "Dashboard controller must not be null.");
+    private final StringProperty temperatureProperty = new SimpleStringProperty();
+    private final StringProperty statusProperty = new SimpleStringProperty();
 
+    public MessageService(String port) {
+        Objects.requireNonNull(port, "Port must not be null.");
         this.serialPort = new SerialPort(port);
-        this.messageBuffer = messageBuffer;
-        this.dashboardController = dashboardController;
     }
 
-    public void shutdown() {
-        try {
-            serialPort.removeEventListener();
-            serialPort.closePort();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public final StringProperty getTemperatureProperty() {
+        return temperatureProperty;
+    }
+
+    public final StringProperty getStatusProperty() {
+        return statusProperty;
     }
 
     @Override
-    public void run() {
-        System.out.println("Start monitoring serial port " + serialPort + " at 9600 boud rate");
+    protected Task<String> createTask() {
+        SerialPortEventListener service = this;
 
-        try {
-            serialPort.openPort();
+        return new Task<String>() {
+            @Override
+            protected String call() {
+                try {
+                    System.out.println("Start monitoring serial port " + serialPort + " at 9600 boud rate");
 
-            serialPort.setParams(SerialPort.BAUDRATE_9600,
-                    SerialPort.DATABITS_8,
-                    SerialPort.STOPBITS_1,
-                    SerialPort.PARITY_NONE);
+                    try {
+                        serialPort.openPort();
 
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |
-                    SerialPort.FLOWCONTROL_RTSCTS_OUT);
+                        serialPort.setParams(SerialPort.BAUDRATE_9600,
+                                SerialPort.DATABITS_8,
+                                SerialPort.STOPBITS_1,
+                                SerialPort.PARITY_NONE);
 
-            serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
-        }
-        catch (SerialPortException ex) {
-            System.out.println("There was an error while writing string to port т: " + ex);
-        }
+                        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |
+                                SerialPort.FLOWCONTROL_RTSCTS_OUT);
 
-        while (true) {
-            try {
-                String messageToSend = messageBuffer.poll(100, TimeUnit.MILLISECONDS);
-                if (messageToSend != null) {
-                    // TODO: Send the message
-                    System.out.println("We have to send a message.");
+                        serialPort.addEventListener(event -> {
+                            Platform.runLater(() -> System.out.println(event));
+                        }, SerialPort.MASK_RXCHAR);
+                    }
+                    catch (SerialPortException ex) {
+                        System.out.println("There was an error while writing string to port т: " + ex);
+                    }
+                } finally {
+                    try {
+                        serialPort.removeEventListener();
+                        serialPort.closePort();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
-            } catch (InterruptedException e) {
-                shutdown();
-                return;
+
+                return null;
             }
-        }
+        };
     }
 
     @Override
     public void serialEvent(SerialPortEvent event) {
-        if(event.isRXCHAR() && event.getEventValue() > 0) {
+        System.out.println(event);
+        if (event.isRXCHAR() && event.getEventValue() > 0) {
             try {
                 String receivedData = serialPort.readString(event.getEventValue());
                 int separatorIndex = receivedData.indexOf("\n");
@@ -86,20 +90,20 @@ public class MessageService implements Runnable, SerialPortEventListener {
                     if (message.length() > 4) {
                         switch (message.substring(0, 4)) {
                             case "TEMP":
-                                dashboardController.displayTemperature(message.split(";")[1]);
+                                this.temperatureProperty.set(message.split(";")[1]);
                                 break;
                             case "STAT":
-                                dashboardController.displayStatus(message.split(";")[1]);
+                                this.statusProperty.setValue(message.split(";")[1]);
                                 break;
                             case "COMP":
-                                dashboardController.increaseWashes();
+                                // dashboardController.increaseWashes();
                                 break;
                         }
                     }
                 } else {
                     partialMessage += receivedData;
                 }
-                // System.out.print(receivedData);
+                System.out.print(receivedData);
             }
             catch (SerialPortException ex) {
                 System.out.println("Error in receiving string from COM-port: " + ex);

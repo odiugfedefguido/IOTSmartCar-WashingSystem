@@ -5,9 +5,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 public class DashboardController {
 
     @FXML
@@ -20,12 +17,16 @@ public class DashboardController {
     private Label statusLabel;
 
     private int carWashCounter = 0;
-    private static final BlockingQueue<String> messageBuffer = new ArrayBlockingQueue<>(10, true);
     private final MessageService messageService;
 
     public DashboardController(String port) {
-        this.messageService = new MessageService(port, messageBuffer, this);
-        Platform.runLater(messageService);
+        this.messageService = new MessageService(port);
+        Platform.runLater(() -> {
+            System.out.println(temperatureLabel.textProperty().get());
+            temperatureLabel.textProperty().bind(messageService.getTemperatureProperty());
+            statusLabel.textProperty().bind(messageService.getStatusProperty());
+        });
+        messageService.start();
     }
 
     @FXML
