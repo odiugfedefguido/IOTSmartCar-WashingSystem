@@ -3,7 +3,7 @@
 #define __BLINK_TASK__
 
 #include "Task.h"
-#include "Led.h"
+#include "../components/actuators/Led.h"
 
 class BlinkTask : public Task {
   int pin;

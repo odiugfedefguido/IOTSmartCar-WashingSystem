@@ -1,5 +1,4 @@
 #include "TaskMaintenance.h"
-#include "Display.h"
 #include "Arduino.h"
 
 int is_first_message = true;

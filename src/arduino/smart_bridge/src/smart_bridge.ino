@@ -1,16 +1,18 @@
-#include "Button.h"
-#include "Display.h"
-#include "Led.h"
-#include "Pir.h"
-// #include "ServoMotor.h"
-#include "UltrasonicSensor.h"
-#include "TemperatureSensor.h"
-#include "Scheduler.h"
-#include "BlinkTask.h"
-#include "TaskCheckin.h"
-#include "TaskMaintenance.h"
-#include "TaskProva.h"
-#include "StateMachine.h"
+#include "components/sensors/Button.h"
+#include "components/sensors/Pir.h"
+#include "components/sensors/UltrasonicSensor.h"
+#include "components/sensors/TemperatureSensor.h"
+
+#include "components/actuators/Display.h"
+// #include "components/actuators/ServoMotor.h"
+
+#include "core/Scheduler.h"
+#include "core/StateMachine.h"
+
+#include "tasks/BlinkTask.h"
+#include "tasks/TaskCheckin.h"
+#include "tasks/TaskMaintenance.h"
+#include "tasks/TaskProva.h"
 
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12

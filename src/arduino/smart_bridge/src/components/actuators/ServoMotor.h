@@ -1,7 +1,7 @@
 #ifndef SERVO_MOTOR_H
 #define SERVO_MOTOR_H
 
-#include "lib/ServoTimer2.h"
+#include "../../lib/ServoTimer2.h"
 
 class ServoMotor
 {

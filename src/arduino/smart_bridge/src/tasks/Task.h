@@ -1,7 +1,7 @@
 #ifndef __TASK__
 #define __TASK__
 
-#include "StateMachine.h"
+#include "../core/StateMachine.h"
 #include "Arduino.h"
 
 class Task {

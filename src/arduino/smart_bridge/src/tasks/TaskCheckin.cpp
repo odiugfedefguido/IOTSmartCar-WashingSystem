@@ -1,11 +1,9 @@
 #include "Arduino.h"
 #include "TaskCheckin.h"
-#include "StateMachine.h"
-#include "Led.h"
-#include "Display.h"
-#include "ServoMotor.h"
-#include "SleepMode.h"
-#include "Button.h"
+
+#include "../core/StateMachine.h"
+#include "../core/SleepMode.h"
+
 //#include <EnableInterrupt.h>
 
 #define N1 10000 // 10sec

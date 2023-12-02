@@ -3,11 +3,7 @@
 
 #include "Arduino.h"
 #include "TaskProva.h"
-#include "StateMachine.h"
-#include "Led.h"
-#include "Display.h"
-#include "ServoMotor.h"
-#include "Button.h"
+#include "../core/StateMachine.h"
 
 #define N1 5000 // 10sec
 

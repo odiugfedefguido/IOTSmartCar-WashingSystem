@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Button.h"
-#include "Led.h"
-#include "ServoMotor.h"
-#include "Display.h"
+#include "../components/sensors/Button.h"
+
+#include "../components/actuators/Led.h"
+#include "../components/actuators/ServoMotor.h"
+#include "../components/actuators/Display.h"
+
 #include "BlinkTask.h"
 
 class TaskCheckin {
