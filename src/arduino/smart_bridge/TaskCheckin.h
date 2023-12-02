@@ -18,7 +18,7 @@ private:
   Led& led2;
   ServoMotor& gate;
   Display& lcd;
-  BlinkTask blinkTask;
+  // BlinkTask blinkTask;
 
   bool isVehiclePresent();
   bool vehicleDetected;

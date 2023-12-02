@@ -1,7 +1,8 @@
 #include "StateMachine.h"
 #include "Arduino.h"
 
-static SystemState currentState = OFF;
+// static SystemState currentState = OFF;
+static SystemState currentState = MAINTENANCE_REQUIRED;
 
 SystemState StateMachine::getCurrentState() {
   return currentState;

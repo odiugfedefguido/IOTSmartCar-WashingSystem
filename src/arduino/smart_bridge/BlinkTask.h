@@ -11,7 +11,7 @@ class BlinkTask : public Task {
   enum { ON, OFF } state;
 
 public:
-  BlinkTask(Led& led);  // Modificato il costruttore per accettare un riferimento a Led
+  BlinkTask(SystemState activeState, Led &led);
   void init(int period);
   void tick();
 };

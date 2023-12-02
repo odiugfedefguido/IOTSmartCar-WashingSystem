@@ -45,10 +45,14 @@ void Display::showText(Message message)
       lcd.setCursor(3, 1);
       lcd.print("the area.");
       break;
-    case MSG_PROBLEM:
-      lcd.setCursor(0, 0);
-      lcd.print("Detected a Problem");
-      lcd.setCursor(0, 1);
+    case MSG_PROBLEM1:
+      lcd.setCursor(2, 0);
+      lcd.print("Detected a");
+      lcd.setCursor(4, 1);
+      lcd.print("Problem");
+      break;
+    case MSG_PROBLEM2:
+      lcd.setCursor(2, 0);
       lcd.print("Please Wait");
       break;
   }

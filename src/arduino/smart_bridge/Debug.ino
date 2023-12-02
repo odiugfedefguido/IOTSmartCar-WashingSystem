@@ -9,9 +9,9 @@ void debug() {
     if (!hasGateBeenOpened && !SILENT) 
     {
       // gate
-      gateServo.openGate();
+      // gateServo.openGate();
       delay(2000);
-      gateServo.closeGate();
+      // gateServo.closeGate();
       hasGateBeenOpened = 1;
     }
 

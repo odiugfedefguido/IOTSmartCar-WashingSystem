@@ -1,7 +1,7 @@
 #ifndef SERVO_MOTOR_H
 #define SERVO_MOTOR_H
 
-#include <Servo.h>
+#include "lib/ServoTimer2.h"
 
 class ServoMotor
 {
@@ -15,7 +15,7 @@ public:
 
 private:
   int GATE_PIN;
-  Servo servo;
+  ServoTimer2 servo;
 };
 
 #endif

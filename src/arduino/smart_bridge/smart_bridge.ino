@@ -2,13 +2,13 @@
 #include "Display.h"
 #include "Led.h"
 #include "Pir.h"
-#include "ServoMotor.h"
+// #include "ServoMotor.h"
 #include "UltrasonicSensor.h"
 #include "TemperatureSensor.h"
 #include "Scheduler.h"
-#include "Timer.h"
 #include "BlinkTask.h"
 #include "TaskCheckin.h"
+#include "TaskMaintenance.h"
 #include "StateMachine.h"
 
 #define START_BUTTON_PIN 7
@@ -28,8 +28,7 @@
 #define MAXDIST 15
 #define MAXTEMP 30
 
-Timer timer;
-Scheduler sched;
+Scheduler scheduler;
 
 void debug();
 
@@ -37,36 +36,42 @@ TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
 UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
 Display display;
 Button startButton(START_BUTTON_PIN);
-ServoMotor gateServo(GATE_PIN);
+// ServoMotor gateServo(GATE_PIN);
 Pir pirSensor(PIR_PIN);
 Led ledGreen1(LED_GREEN1);
 Led ledGreen2(LED_GREEN2);
 Led ledRed(LED_RED);
 
-TaskCheckin taskCheckin(pirSensor, ledGreen1, ledGreen2, gateServo, display);
-
+//TaskCheckin taskCheckin(pirSensor, ledGreen1, ledGreen2, gateServo, display);
 
 void setup()
 {
   Serial.begin(9600);
+  scheduler.init(50);
 
-  //sched.init(50);
+  Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
+  taskMaintenance->init(1000);
+  scheduler.addTask(taskMaintenance);
 
-  taskCheckin.init();
+  // taskCheckin.init();
+  // taskMaintenance.init();
 
   //temperatureSensor.setup();
   //ultrasonicSensor.setup();
-  gateServo.setup();
-  //display.setup();
-
-  //timer.setupPeriod(50);
-
-  //sched.addTask(TaskPirPresence);
-  delay(500);
+  // gateServo.setup();
+  display.setup();
 }
 
 void loop()
 {
+
+  scheduler.schedule();
+
+  // taskCheckin.update();
+  // taskMaintenance.update();
+
+
+  //ultrasonicSensor.carOut();
   /*
   bool motionDetected = pirSensor.detectMotion();
    if (motionDetected) {
@@ -76,13 +81,4 @@ void loop()
     Serial.println("Nessun movimento rilevato.");
     digitalWrite(LED_BUILTIN, LOW);  // Spegni il LED incorporato
   }*/
-  taskCheckin.update();
-  //ultrasonicSensor.carOut();
-  Serial.println("loop");
-  //sched.schedule();
-  //timer.waitForNextTick();
-  //step();
-  
-  delay(50);
-  
 }

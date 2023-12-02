@@ -10,9 +10,10 @@
 #define N1 15000 // 15sec
 
 TaskCheckin::TaskCheckin(Pir& pir, Led& led1, Led& led2, ServoMotor& gate, Display& lcd)
-    : pir(pir), led1(led1), led2(led2), gate(gate), lcd(lcd), blinkTask(led2) {
+    : pir(pir), led1(led1), led2(led2), gate(gate), lcd(lcd) {
   vehicleDetectedTime = 0;
   vehicleDetected = false;
+  // TODO: blink task
 }
 
 void TaskCheckin::init() {
@@ -43,8 +44,8 @@ void TaskCheckin::update() {
       gate.openGate(); // Apri il cancello
       lcd.showText(MSG_PROCEED);
       // blinking di l2!!!!
-      blinkTask.init(100);  // Imposta il periodo del lampeggio a 0.1 secondi
-      blinkTask.tick();
+      // TODO: blinkTask.init(100);  // Imposta il periodo del lampeggio a 0.1 secondi
+      // TODO: blinkTask.tick();
     }
   } else {
     // Se il veicolo non è più rilevato, resetta le variabili

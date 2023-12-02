@@ -7,7 +7,8 @@ enum Message {
   MSG_READY,
   MSG_COMPLETE1,
   MSG_COMPLETE2,
-  MSG_PROBLEM
+  MSG_PROBLEM1,
+  MSG_PROBLEM2
 };
 
 class Display

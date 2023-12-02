@@ -26,7 +26,7 @@ bool Scheduler::addTask(Task* task){
   }
 }
   
-void Scheduler::schedule(){   
+void Scheduler::schedule(){  
   while (!timerFlag1){}
   timerFlag1 = false;
 

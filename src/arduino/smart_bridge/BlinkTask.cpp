@@ -1,8 +1,8 @@
 // BlinkTask.cpp
 #include "BlinkTask.h"
 
-BlinkTask::BlinkTask(Led& led) {
-  this->led = &led;
+BlinkTask::BlinkTask(SystemState activeState, Led &led): Task(activeState), led(&led)
+{
   state = OFF;
 }
 

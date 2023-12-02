@@ -1,10 +1,13 @@
 #ifndef __TASK__
 #define __TASK__
 
+#include "StateMachine.h"
+#include "Arduino.h"
+
 class Task {
 
 public:
-  Task(){
+  Task(SystemState activeState): activeState(activeState) {
     active = false;
   }
 
@@ -50,14 +53,16 @@ public:
   }
 
   bool isActive(){
-    return active;
+    return active && StateMachine::getCurrentState() == activeState;
   }
 
   virtual void setActive(bool active){
     timeElapsed = 0;
     this->active = active;
   }
-  
+
+  SystemState activeState;
+
 private:
 
   int myPeriod;
