@@ -14,6 +14,8 @@
 #include "tasks/TaskMaintenance.h"
 #include "tasks/TaskProva.h"
 
+#include "serial/MsgService.h"
+
 #define START_BUTTON_PIN 7
 #define LED_GREEN1 12
 #define LED_GREEN2 8
@@ -53,6 +55,7 @@ void setup()
 {
   Serial.begin(9600);
   scheduler.init(50);
+  MsgService.init();
 
   Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(1000);
@@ -87,6 +90,5 @@ void loop()
   }*/
   
   //taskProva.update();
-  Serial.println("loop");
   
 }

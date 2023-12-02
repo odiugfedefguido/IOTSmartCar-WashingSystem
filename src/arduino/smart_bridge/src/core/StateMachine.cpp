@@ -1,6 +1,8 @@
 #include "StateMachine.h"
 #include "Arduino.h"
 
+#include "../serial/MsgService.h"
+
 // static SystemState currentState = OFF;
 static SystemState currentState = MAINTENANCE_REQUIRED;
 
@@ -8,40 +10,36 @@ SystemState StateMachine::getCurrentState() {
   return currentState;
 }
 
-void step(){
+String getStatusText() {
   switch (currentState) {
     case OFF:
-      // Logica per lo stato OFF
-
-      //taskPirPresence
+      return "IDLE";
       break;
     case WELCOME:
-      // Logica per lo stato WELCOME
-      
-      //TaskServo
+      return "CAR ARRIVED";
       break;
     case PROCEED_TO_WASHING_AREA:
-      // Logica per lo stato PROCEED_TO_WASHING_AREA
+      return "PROCEED TO WASHING";
       break;
     case READY_TO_WASH:
-      // Logica qua
-      
+      return "READY TO WASH";
       break;
     case WASHING:
-      // Logica
+      return "WASHING";
       break;
     case WASHING_COMPLETE:
-      // Logica
+      return "WASHING COMPLETE";
       break;
     case LEAVE_AREA:
-      // Logica
+      return "LEAVING THE AREA";
       break;
     case MAINTENANCE_REQUIRED:
-      // Logica
+      return "MAINTENANCE REQUIRED";
       break;
   }
 }
 
 void StateMachine::transitionTo(SystemState nextState) {
   currentState = nextState;
+  MsgService.sendMsg("STATUS;" + getStatusText());
 }

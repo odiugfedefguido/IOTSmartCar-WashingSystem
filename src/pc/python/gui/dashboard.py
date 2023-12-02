@@ -1,18 +1,18 @@
 from tkinter import *
 from tkinter.ttk import *
-import tkinter.font as font
 
 from communication.serial_service import SerialService
 
-OPEN_SANS_LARGE = ("Open Sans", 48, "bold") 
-OPEN_SANS_HEADLINE = ("Open Sans", 34, "bold") 
+OPEN_SANS_LARGE = ("Open Sans", 64, "bold") 
+OPEN_SANS_HEADLINE = ("Open Sans", 36, "bold") 
 OPEN_SANS_SMALL = ("Open Sans", 18, "normal") 
+OPEN_SANS_STATUS = ("Open Sans", 36, "bold") 
 
 class Dashboard:
     count = 0
     
     def __init__(self, port) -> None:
-        # self.arduino = SerialService(port)
+        self.arduino = SerialService(port)
 
         self.root = Tk()
         self.root.title("Smart Bridge Dashboard")
@@ -31,7 +31,8 @@ class Dashboard:
         self.root.mainloop()
 
     def on_button_clicked(self):
-        print("Wow.")
+        self.arduino.write("REPAIRED\n")
+        self.button['state'] = 'disabled'
 
     def create_gui(self):
         Label(self.root, text="SMART WASHING", font=OPEN_SANS_HEADLINE).pack()
@@ -42,17 +43,17 @@ class Dashboard:
         row.pack()
 
         status_row = Frame(self.root)
-        self.create_frame(status_row, self.status_var, "current status", 1, 1)
+        self.create_frame(status_row, self.status_var, "current status", 1, 1, OPEN_SANS_STATUS)
         status_row.pack()
 
-        button = Button(self.root, text="MAINTENANCE DONE", command=self.on_button_clicked)
-        button.pack()
-        button['state'] = 'disabled'
+        self.button = Button(self.root, text="MAINTENANCE DONE", command=self.on_button_clicked)
+        self.button.pack()
+        self.button['state'] = 'disabled'
         
-    def create_frame(self, parent, variable, label, row, column):
+    def create_frame(self, parent, variable, label, row, column, font_size=OPEN_SANS_LARGE):
         frame = Frame(parent, padding=40)
 
-        (Label(frame, textvariable = variable, font=OPEN_SANS_LARGE)
+        (Label(frame, textvariable = variable, font=font_size)
          .grid(row = 1, column = 1, sticky = W, ipadx=4, ipady=4))
         (Label(frame, text =label, font=OPEN_SANS_SMALL)
          .grid(row = 2, column = 1, sticky = W, ipadx=4, ipady=4))
@@ -62,10 +63,11 @@ class Dashboard:
 
 
     def update(self):
-        """
         message = self.arduino.read()
         parsed_message = str(message).replace('b\'', '').replace('\'', '').replace('\\r\\n', '').split(';')
-        print(parsed_message)
+        
+        if (len(parsed_message) > 1 or len(parsed_message[0]) > 0):
+            print(parsed_message) 
 
         type = parsed_message[0]
         content = ''
@@ -74,14 +76,15 @@ class Dashboard:
             type = parsed_message[0]
             content = parsed_message[1]
 
-        if type == 'COMP':
+        if type == 'COMPLETE':
             self.count += 1
             self.count_var.set(self.count)
         elif type == 'TEMP':
             self.temperature_var.set(content)
-        elif type == 'STAT':
+        elif type == 'STATUS':
             self.status_var.set(content)
-
-        """
+        elif type == 'ERROR':
+            self.status_var.set('MAINTENANCE REQUIRED')
+            self.button['state'] = 'enabled'
             
         self.root.after(200, self.update)
