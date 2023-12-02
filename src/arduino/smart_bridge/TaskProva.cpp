@@ -1,50 +1,36 @@
+//è un taskCheckin che testa senza la modalità sleep!!
+//problema: quando schiaccio il bottone entra in ispressed essendo true però non esegue i comandi successivi
+
 #include "Arduino.h"
-#include "TaskCheckin.h"
+#include "TaskProva.h"
 #include "StateMachine.h"
 #include "Led.h"
 #include "Display.h"
 #include "ServoMotor.h"
-#include "SleepMode.h"
 #include "Button.h"
-//#include <EnableInterrupt.h>
 
-#define N1 10000 // 10sec
+#define N1 5000 // 10sec
 
-TaskCheckin::TaskCheckin(Button& button, Led& led1, Led& led2, ServoMotor& gate, Display& lcd)
+TaskProva::TaskProva(Button& button, Led& led1, Led& led2, ServoMotor& gate, Display& lcd)
     : button(button), led1(led1), led2(led2), gate(gate), lcd(lcd), blinkTask(led2) {
   vehicleDetectedTime = 0;
-  vehicleDetected = false;
 }
 
-
-void TaskCheckin::init() {
-  Serial.println("entra in init");
-  setupInterrupt();
-}
-
-void TaskCheckin::update() {
+void TaskProva::update() {
     Serial.println("entra in update");
 
   if (isPressed()) {
+    //registra il tempo da quando schiaccia il bottone
+    vehicleDetectedTime = millis();
     Serial.println("entra in isPressed in update");
-    exitSleepMode();
-    Serial.println("UNSLEEP");
-    delay(500);
 
     // l1 accesa
     led1.turnOn();
     lcd.showText(MSG_WELCOME);
 
-    if (!vehicleDetected) {
-      // Se è la prima volta che viene rilevato il veicolo, registra il tempo
-      vehicleDetectedTime = millis();
-      vehicleDetected = true;
-    }
-
     // Dopo N1 millisecondi, esegui le operazioni successive
     if (millis() - vehicleDetectedTime >= N1) {
       // Resettiamo le variabili per la prossima rilevazione
-      vehicleDetected = false;
       vehicleDetectedTime = 0;
       gate.openGate(); // Apri il cancello
       lcd.showText(MSG_PROCEED);
@@ -52,26 +38,10 @@ void TaskCheckin::update() {
       blinkTask.init(100);  // Imposta il periodo del lampeggio a 0.1 secondi
       blinkTask.tick();
     }
-  } else {
-    // Se il veicolo non è più rilevato, resetta le variabili
-    vehicleDetected = false;
-    vehicleDetectedTime = 0;
-
-    Serial.println("entra nell'else di update");
-
-    // entra in sleep se non rivela niente
-    enterSleepMode();
   }
 }
 
-/*
-bool TaskCheckin::isVehiclePresent() {
-  Serial.println("entra il veicolo");
-  delay(50);
-  return pir.detectMotion();
-}*/
-
-bool TaskCheckin::isPressed() {
+bool TaskProva::isPressed() {
   Serial.println("entra in ispressed");
 
   // Gestione debounce software
@@ -79,6 +49,7 @@ bool TaskCheckin::isPressed() {
   unsigned long currentTime = millis();
 
   if (currentTime - lastButtonPressTime > 50) {  // Intervallo di debounce
+    delay(100);
     if (button.isPressed()) {
       Serial.println("bottone schiacciato");
       lastButtonPressTime = currentTime;
