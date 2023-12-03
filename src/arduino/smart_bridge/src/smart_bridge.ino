@@ -13,13 +13,15 @@
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskMaintenance.h"
 #include "tasks/TaskProva.h"
+#include "tasks/TaskProceed.h"
+#include "tasks/TaskOpenGate.h"
 
 #include "serial/MsgService.h"
 
 #define START_BUTTON_PIN 4
 #define LED_GREEN1 12
 #define LED_GREEN2 8
-#define LED_RED 11
+#define LED_RED 7
 #define PIR_PIN 2
 #define GATE_PIN 3
 #define SONAR_TRIGPIN 10
@@ -50,8 +52,12 @@ Led ledRed(LED_RED);
 void setup()
 {
   Serial.begin(9600);
-  scheduler.init(50); // base period
+  scheduler.init(10); // base period
   MsgService.init();
+
+  ledGreen1.setup();
+  ledGreen2.setup();
+  ledRed.setup();
 
   temperatureSensor.setup();
   ultrasonicSensor.setup();
@@ -60,32 +66,24 @@ void setup()
   gateServo.setup();
   display.setup();
 
-  Task *taskCheckin = new TaskCheckin(OFF, startButton, ledGreen1, ledGreen2, gateServo, display, pirSensor);
+  Task *taskCheckin = new TaskCheckin(OFF, startButton, ledGreen1, ledGreen2, ledRed, gateServo, display, pirSensor);
   taskCheckin->init(500);
   scheduler.addTask(taskCheckin);
 
-  Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
+  Task *taskProceed = new TaskProceed(WELCOME, ledGreen2);
+  taskProceed->init(100);
+  scheduler.addTask(taskProceed);
+
+  Task *taskOpenGate = new TaskOpenGate(WELCOME, gateServo);
+  taskOpenGate->init(10);
+  scheduler.addTask(taskOpenGate);
+
+  Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);
   scheduler.addTask(taskMaintenance);
 }
 
-int val = 1000;
-
 void loop()
 {
   scheduler.schedule();
-
-  //ultrasonicSensor.carOut();
-  /*
-  bool motionDetected = pirSensor.detectMotion();
-   if (motionDetected) {
-    Serial.println("Movimento rilevato!");
-    digitalWrite(LED_BUILTIN, HIGH);  // Accendi il LED incorporato
-  } else {
-    Serial.println("Nessun movimento rilevato.");
-    digitalWrite(LED_BUILTIN, LOW);  // Spegni il LED incorporato
-  }*/
-  
-  //taskProva.update();
-  
 }

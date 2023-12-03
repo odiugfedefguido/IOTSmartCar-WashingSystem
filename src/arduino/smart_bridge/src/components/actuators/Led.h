@@ -7,6 +7,7 @@ public:
   Led(int pin);
   void turnOn();
   void turnOff();
+  void setup();
 
 private:
   int pinLed;

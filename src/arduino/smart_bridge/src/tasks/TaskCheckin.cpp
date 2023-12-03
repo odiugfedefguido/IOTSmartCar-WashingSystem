@@ -6,8 +6,8 @@
 
 #define N1 10000 // 10 sec
 
-TaskCheckin::TaskCheckin(SystemState activeState, Button &button, Led &led1, Led &led2, ServoMotor &gate, Display &lcd, Pir &pirSensor)
-    : button(button), led1(led1), led2(led2), gate(gate), lcd(lcd), Task(activeState), pirSensor(pirSensor)
+TaskCheckin::TaskCheckin(SystemState activeState, Button &button, Led &led1, Led &led2, Led &ledRed, ServoMotor &gate, Display &lcd, Pir &pirSensor)
+    : Task(activeState), button(button), led1(led1), led2(led2), ledRed(ledRed), gate(gate), lcd(lcd), pirSensor(pirSensor)
 {
   vehicleDetectedTime = 0;
   vehicleDetected = false;
@@ -20,6 +20,9 @@ void TaskCheckin::init(int period) {
 
 void TaskCheckin::tick() {
   gate.closeGate();
+  led1.turnOff();
+  ledRed.turnOff();
+  led2.turnOff();
 
   if (isVehiclePresent()) {
     if (!vehicleDetected)
@@ -40,7 +43,6 @@ void TaskCheckin::tick() {
     vehicleDetected = false;
     vehicleDetectedTime = 0;
 
-    led1.turnOff();
     lcd.turnOff();
 
     Serial.println("Sleep");
