@@ -15,7 +15,7 @@ TaskCheckin::TaskCheckin(SystemState activeState, Button &button, Led &led1, Led
 
 void TaskCheckin::init(int period) {
   Task::init(period);  
-  setupInterrupt();
+  setupInterrupt(pirSensor.getPin());
 }
 
 void TaskCheckin::tick() {
@@ -30,7 +30,9 @@ void TaskCheckin::tick() {
 
       led1.turnOn();
       lcd.showText(MSG_WELCOME);
-    } else if (vehicleDetectedTime - millis() > N1) {
+    }
+    else if (millis() - vehicleDetectedTime > N1)
+    {
       StateMachine::transitionTo(WELCOME);
     }
   } else {
@@ -41,13 +43,16 @@ void TaskCheckin::tick() {
     led1.turnOff();
     lcd.turnOff();
 
+    Serial.println("Sleep");
     enterSleepMode();
   }
 }
 
 
 bool TaskCheckin::isVehiclePresent() {
-  return button.isPressed();
-  // TODO: return pirSensor.detectMotion();
+  if (pirSensor.detectMotion()) {
+    Serial.println("Motion detected.");
+  }
+  return pirSensor.detectMotion();
 }
 

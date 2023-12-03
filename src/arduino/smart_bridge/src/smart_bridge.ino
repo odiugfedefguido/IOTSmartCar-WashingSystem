@@ -16,11 +16,11 @@
 
 #include "serial/MsgService.h"
 
-#define START_BUTTON_PIN 2
+#define START_BUTTON_PIN 4
 #define LED_GREEN1 12
 #define LED_GREEN2 8
 #define LED_RED 11
-#define PIR_PIN 13
+#define PIR_PIN 2
 #define GATE_PIN 3
 #define SONAR_TRIGPIN 10
 #define SONAR_ECHOPIN 9
@@ -47,9 +47,6 @@ Led ledGreen1(LED_GREEN1);
 Led ledGreen2(LED_GREEN2);
 Led ledRed(LED_RED);
 
-// TaskProva taskProva(startButton, ledGreen1, ledGreen2, gateServo, display);
-
-
 void setup()
 {
   Serial.begin(9600);
@@ -58,6 +55,8 @@ void setup()
 
   temperatureSensor.setup();
   ultrasonicSensor.setup();
+  pirSensor.setup();
+
   gateServo.setup();
   display.setup();
 

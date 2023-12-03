@@ -6,7 +6,7 @@
 extern bool motionDetected;
 
 void onWakeUp();
-void setupInterrupt();
+void setupInterrupt(int pin);
 void enterSleepMode();
 
 #endif // SLEEP_MODE_H
