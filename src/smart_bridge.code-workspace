@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "arduino",
+			"path": "arduino/smart_bridge"
+		},
+		{
+			"path": "pc"
+		}
+	],
+	"settings": {}
+}
