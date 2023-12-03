@@ -21,7 +21,7 @@
 #define LED_GREEN2 8
 #define LED_RED 11
 #define PIR_PIN 13
-#define GATE_PIN 5
+#define GATE_PIN 3
 #define SONAR_TRIGPIN 10
 #define SONAR_ECHOPIN 9
 #define TEMPERATURE_PIN A0
@@ -53,31 +53,28 @@ Led ledRed(LED_RED);
 void setup()
 {
   Serial.begin(9600);
-  scheduler.init(200); // base period
+  scheduler.init(50); // base period
   MsgService.init();
 
-  // temperatureSensor.setup();
-  // ultrasonicSensor.setup();
-  //  gateServo.setup();
+  temperatureSensor.setup();
+  ultrasonicSensor.setup();
+  gateServo.setup();
   display.setup();
-
-  Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
-  taskMaintenance->init(1000);
-  scheduler.addTask(taskMaintenance);
 
   Task *taskCheckin = new TaskCheckin(OFF, startButton, ledGreen1, ledGreen2, gateServo, display, pirSensor);
   taskCheckin->init(500);
   scheduler.addTask(taskCheckin);
+
+  Task* taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
+  taskMaintenance->init(100);
+  scheduler.addTask(taskMaintenance);
 }
+
+int val = 1000;
 
 void loop()
 {
-
   scheduler.schedule();
-
-  // taskCheckin.update();
-  // taskMaintenance.update();
-
 
   //ultrasonicSensor.carOut();
   /*

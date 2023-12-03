@@ -12,8 +12,9 @@ public:
   void detach();
   void openGate();
   void closeGate();
+  int read();
 
-private:
+private: 
   int GATE_PIN;
   ServoTimer2 servo;
 };

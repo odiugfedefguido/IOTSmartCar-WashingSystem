@@ -2,7 +2,8 @@
 #include "Arduino.h"
 #include "../serial/MsgService.h"
 
-int is_first_message = true;
+bool isFirstMessage = true;
+bool hasBeenInitiated = false;
 
 TaskMaintenance::TaskMaintenance(SystemState activeState, Display &lcd) : Task(activeState), lcd(lcd)
 {
@@ -11,17 +12,21 @@ TaskMaintenance::TaskMaintenance(SystemState activeState, Display &lcd) : Task(a
 
 void TaskMaintenance::init(int period) {
     Task::init(period);
-    MsgService.sendMsg("ERROR");
 }
 
 void TaskMaintenance::tick() {
-    if (is_first_message) {
+    if (!hasBeenInitiated) {
+        MsgService.sendMsg("ERROR");
+        hasBeenInitiated = true;
+    }
+
+    if (isFirstMessage) {
         lcd.showText(MSG_PROBLEM1);
     } else {
         lcd.showText(MSG_PROBLEM2);
     }
 
-    is_first_message = !is_first_message;
+    isFirstMessage = !isFirstMessage;
 
     if (MsgService.isMsgAvailable()) {
         Msg* msg = MsgService.receiveMsg();
@@ -30,7 +35,4 @@ void TaskMaintenance::tick() {
         }
         delete msg;
     }
-
-    // TODO: Send maintenance message to PC.
-    // TODO: Wait for response to continue.
 }

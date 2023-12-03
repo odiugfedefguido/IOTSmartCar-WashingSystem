@@ -7,7 +7,6 @@ ServoMotor::ServoMotor(int pin) : GATE_PIN(pin) {
 
 void ServoMotor::setup()
 {
-  pinMode(GATE_PIN, INPUT);
   servo.attach(GATE_PIN);
 }
 
@@ -21,12 +20,24 @@ void ServoMotor::detach()
   servo.detach();
 }
 
+int ServoMotor::read() {
+  return servo.read();
+}
+
 void ServoMotor::openGate()
 {
-  write(90);
+  int currentValue = servo.read();
+  if (currentValue > 1000)
+  {
+    servo.write(currentValue - 10);
+  }
 }
 
 void ServoMotor::closeGate()
 {
-  write(-90);
+  int currentValue = servo.read();
+  if (currentValue < 2000)
+  {
+    servo.write(currentValue + 10);
+  }
 }

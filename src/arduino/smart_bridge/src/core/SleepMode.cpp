@@ -10,19 +10,18 @@
 
 void setupInterrupt() {
   // TODO: Make dependent on PIR.
-  attachInterrupt(digitalPinToInterrupt(START_BUTTON_PIN), buttonInterrupt, FALLING);
+  attachInterrupt(digitalPinToInterrupt(START_BUTTON_PIN), onWakeUp, FALLING);
 }
 
 void enterSleepMode() {
   Serial.println("sleep");
-  sei(); // Abilita gli interrupt
+  sei(); // set interrupts enabled
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
   sleep_mode();
 }
 
-void buttonInterrupt() {
-  // Imposta la variabile di stato per indicare che il sistema deve svegliarsi
+void onWakeUp() {
+  // disable sleep
   sleep_disable();
-  Serial.println("Wakeup");
 }

@@ -5,9 +5,8 @@
 
 extern bool motionDetected;
 
-void buttonInterrupt();
+void onWakeUp();
 void setupInterrupt();
 void enterSleepMode();
-void exitSleepMode();
 
 #endif // SLEEP_MODE_H

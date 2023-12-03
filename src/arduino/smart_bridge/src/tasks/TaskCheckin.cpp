@@ -14,16 +14,13 @@ TaskCheckin::TaskCheckin(SystemState activeState, Button &button, Led &led1, Led
 }
 
 void TaskCheckin::init(int period) {
-  Task::init(period);
-
-  gate.closeGate();
-  lcd.turnOff();
-  
+  Task::init(period);  
   setupInterrupt();
 }
 
 void TaskCheckin::tick() {
-  Serial.println("tick");
+  gate.closeGate();
+
   if (isVehiclePresent()) {
     if (!vehicleDetected)
     {
@@ -34,7 +31,7 @@ void TaskCheckin::tick() {
       led1.turnOn();
       lcd.showText(MSG_WELCOME);
     } else if (vehicleDetectedTime - millis() > N1) {
-      StateMachine::transitionTo(PROCEED_TO_WASHING_AREA);
+      StateMachine::transitionTo(WELCOME);
     }
   } else {
     // reset variables
