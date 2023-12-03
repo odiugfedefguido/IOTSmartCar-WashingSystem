@@ -29,16 +29,16 @@ float UltrasonicSensor::getDistance() {
 }
 
 //questo metodo controlla se la macchina è entrata controllando la distanza
-void UltrasonicSensor::carIn() {
+int UltrasonicSensor::carIn() {
   //se la distanza è minore della distanza minima allora la macchina è dentro
   if (getDistance() < mindist) {
-    Serial.println("Car in");
+    return 0;
   }
 }
 
-void UltrasonicSensor::carOut() {
+int UltrasonicSensor::carOut() {
   //se la distanza è maggiore della distanza massima allora la macchina è fuori
   if (getDistance() > maxdist) {
-    Serial.println("Car out");
+    return 0;
   }
 }
