@@ -4,7 +4,7 @@
 #include "../core/StateMachine.h"
 #include "../core/SleepMode.h"
 
-#define N1 3000 // 3 sec
+#define N1 5000 // 5 sec
 
 TaskCheckin::TaskCheckin(SystemState activeState, Button &button, Led &ledGreen1, Led &ledGreen2, Led &ledRed, ServoMotor &gate, Display &lcd, Pir &pirSensor)
     : Task(activeState), button(button), ledGreen1(ledGreen1), ledGreen2(ledGreen2), ledRed(ledRed), gate(gate), lcd(lcd), pirSensor(pirSensor)

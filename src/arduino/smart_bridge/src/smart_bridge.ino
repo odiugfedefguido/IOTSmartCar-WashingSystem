@@ -61,18 +61,19 @@ void setup()
   ledGreen2.setup();
   ledRed.setup();
 
+  gateServo.setup();
+  display.setup();
+  display.showText(MSG_INIT);
+
   temperatureSensor.setup();
   ultrasonicSensor.setup();
   pirSensor.setup();
-
-  gateServo.setup();
-  display.setup();
 
   Task *taskCheckin = new TaskCheckin(CHECKIN, startButton, ledGreen1, ledGreen2, ledRed, gateServo, display, pirSensor);
   taskCheckin->init(500);
   scheduler.addTask(taskCheckin);
 
-  Task *blinkTaskReadyToWash = new BlinkTask(WELCOME, ledGreen2);
+  Task *blinkTaskReadyToWash = new BlinkTask(WELCOME, ledRed);
   blinkTaskReadyToWash->init(100);
   scheduler.addTask(blinkTaskReadyToWash);
 
@@ -88,10 +89,14 @@ void setup()
   taskWashing->init(1000);
   scheduler.addTask(taskWashing);
 
+  Task *blinkTaskWashing = new BlinkTask(WASHING, ledRed);
+  blinkTaskWashing->init(500);
+  scheduler.addTask(blinkTaskWashing);
+
   Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display, ledRed, ledGreen2, ultrasonicSensor);
   taskComplete->init(1000);
   scheduler.addTask(taskComplete);
-  
+
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);
   scheduler.addTask(taskMaintenance);

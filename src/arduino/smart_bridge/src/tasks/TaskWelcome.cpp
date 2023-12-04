@@ -17,30 +17,28 @@ void TaskWelcome::init(int period) {
 }
 
 void TaskWelcome::tick() {
+    lcd.showText(MSG_PROCEED);
     gate.openGate();
-    Serial.println(ultrasonicSensor.carIn());
 
-    if(ultrasonicSensor.carIn()) { //se la macchina è nella zona due 
+    if(ultrasonicSensor.carIn()) { 
+        // the car is in the washing area
 
-        if (!isVehicleInside) { //se il veicolo non era gia dentro
+        if (!isVehicleInside) { 
             // record the timestamp when the vehicle arrives for the first time
-            lcd.showText(MSG_READY);
             isVehicleInside = true;            
         } 
-        secondsInsideZone++; //ad ogni tic entra e aumenta di uno il tempo che la macchina è nella zona 2
+
+        secondsInsideZone++;
         Serial.println(secondsInsideZone);
+        
         if (secondsInsideZone >= N2) {
             StateMachine::transitionTo(READY_TO_WASH);
             return;
-        } else {
-           ledRed.turnOn(); // Accendi il LED rosso se la macchina non è dentro
         }
     } else {
         // reset variables
         isVehicleInside = false;
         secondsInsideZone = 0;
-        
-
     }
 
 }

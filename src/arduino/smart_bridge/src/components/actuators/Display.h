@@ -1,7 +1,9 @@
 #ifndef __DISPLAY__
 #define __DISPLAY__
 
-enum Message {
+enum Message
+{
+  MSG_INIT,
   MSG_WELCOME,
   MSG_PROCEED,
   MSG_READY,

@@ -16,10 +16,13 @@ void Display::setup()
 
 void Display::showNumber(int number) 
 {
+  Serial.println("Remaining: " + String(number) + " seconds");
   lcd.clear();
   lcd.backlight();
-  lcd.setCursor(3, 0);
-  lcd.print(number);
+  lcd.setCursor(2, 0);
+  lcd.print("Remaining:");
+  lcd.setCursor(3, 1);
+  lcd.print(String(number) + " seconds");
 }
 
 void Display::showText(Message message) 
@@ -30,6 +33,10 @@ void Display::showText(Message message)
 
   switch (message)
   {
+    case MSG_INIT:
+      lcd.setCursor(0, 0);
+      lcd.print("Initializing ...");
+      break;
     case MSG_WELCOME:
       lcd.setCursor(4, 0);
       lcd.print("Welcome");
