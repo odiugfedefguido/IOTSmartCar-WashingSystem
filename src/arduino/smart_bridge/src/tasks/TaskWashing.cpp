@@ -29,8 +29,8 @@ void TaskWashing::tick() {
             if(secondsWashing >= N3) { //macchina lavata
                 lcd.showText(MSG_COMPLETE1);
                 ledGreen.turnOn();
-                button.reset(); //resetto il bottone
-                StateMachine::transitionTo(READY_TO_LEAVE);
+               
+                StateMachine::transitionTo(WASHING_COMPLETE);
                 return;
             } else {
                 
@@ -40,7 +40,5 @@ void TaskWashing::tick() {
         }
 
 
-    } else {
-       isPressed = false;
     }
 }

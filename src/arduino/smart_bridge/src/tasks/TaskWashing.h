@@ -19,4 +19,6 @@ class TaskWashing:public Task {
         Button& button;
         Led& ledGreen;
         Display& lcd;
+        int secondsWashing;
+        bool isPressed;
 };

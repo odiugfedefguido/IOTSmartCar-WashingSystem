@@ -30,10 +30,6 @@ void TaskWelcome::tick() {
         Serial.println(secondsInsideZone);
         if (secondsInsideZone >= N2) {
             StateMachine::transitionTo(READY_TO_WASH);
-           /* lcd.showText();
-            closeGate(); // Chiude il gate quando la macchina è dentro per N2 secondi
-            ledRed.turnOff(); // Spegni il LED rosso
-            break; // Esce dal loop di controllo della distanza*/
             return;
         } else {
            ledRed.turnOn(); // Accendi il LED rosso se la macchina non è dentro
