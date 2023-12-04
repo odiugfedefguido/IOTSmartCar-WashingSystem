@@ -1,12 +1,9 @@
 #include "UltrasonicSensor.h"
 #include <Arduino.h>
 
-UltrasonicSensor::UltrasonicSensor(int trigPin, int echoPin, int mindist, int maxdist) {
-  this->trigPin = trigPin;
-  this->echoPin = echoPin;
-  this->vs = 331.45 + 0.62 * 20;  // Assuming a temperature of 20 °C
-  this->mindist = mindist;
-  this->maxdist = maxdist;
+UltrasonicSensor::UltrasonicSensor(int trigPin, int echoPin, float mindist, float maxdist) : trigPin(trigPin), echoPin(echoPin), mindist(mindist), maxdist(maxdist) {
+  // Assuming a temperature of 20 °C
+  this->vs = 331.45 + 0.62 * 20;  
 }
 
 void UltrasonicSensor::setup() {
@@ -24,7 +21,7 @@ float UltrasonicSensor::getDistance() {
   float tUS = pulseIn(echoPin, HIGH);
   float t = tUS / 1000.0 / 1000.0 / 2;
   float distance = t * vs;
-  Serial.println(distance);
+  Serial.println("Distance: " + String(distance));
   return distance;
 }
 

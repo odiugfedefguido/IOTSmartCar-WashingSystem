@@ -3,7 +3,7 @@
 
 class UltrasonicSensor {
 public:
-  UltrasonicSensor(int trigPin, int echoPin, int mindist, int maxdist);
+  UltrasonicSensor(int trigPin, int echoPin, float mindist, float maxdist);
   void setup();
   float getDistance();
   int carIn();
@@ -12,8 +12,8 @@ public:
 private:
   int trigPin;
   int echoPin;
-  int mindist;
-  int maxdist;
+  float mindist;
+  float maxdist;
   float vs;
 };
 
