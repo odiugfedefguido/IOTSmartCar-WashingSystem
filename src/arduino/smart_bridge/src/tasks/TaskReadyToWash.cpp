@@ -13,7 +13,7 @@ TaskReadyToWash::TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultr
    : Task(activeState), ultrasonicSensor(ultrasonicSensor), ledRed(ledRed), gate(gate), lcd(lcd)
     {
         //vehicleDetectedTime = 0;
-        vehicleDetected = false;
+        
         isVehicleInside = false;
         secondsInsideZone = 0;
     }
@@ -23,9 +23,11 @@ void TaskReadyToWash::init(int period) {
 }
 
 void TaskReadyToWash::tick() {
+    Serial.println(ultrasonicSensor.carIn());
 
     if(ultrasonicSensor.carIn()) { //se la macchina è nella zona due 
-        if (!isVehicleInside) {
+
+        if (!isVehicleInside) { //se il veicolo non era gia dentro
             // record the timestamp when the vehicle arrives for the first time
             lcd.showText(MSG_READY);
             isVehicleInside = true;
@@ -34,6 +36,7 @@ void TaskReadyToWash::tick() {
             
         } 
         secondsInsideZone++; //ad ogni tic entra e aumenta di uno il tempo che la macchina è nella zona 2
+        Serial.println(secondsInsideZone);
         if (secondsInsideZone >= N2) {
             StateMachine::transitionTo(WASHING);
            /* lcd.showText();
@@ -46,8 +49,6 @@ void TaskReadyToWash::tick() {
         }
     } else {
         // reset variables
-        vehicleDetected = false;
-
         isVehicleInside = false;
         secondsInsideZone = 0;
         

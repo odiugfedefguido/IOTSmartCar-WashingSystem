@@ -32,8 +32,8 @@
 #define N2 10
 #define N3 15
 #define N4 20
-#define MINDIST 0.03
-#define MAXDIST 15
+#define MINDIST 4
+#define MAXDIST 8
 #define MAXTEMP 30
 
 Scheduler scheduler;
@@ -79,10 +79,9 @@ void setup()
   taskOpenGate->init(10);
   scheduler.addTask(taskOpenGate);
 
-  Task *taskReadyToWash = new TaskReadyToWash(WASHING, ultrasonicSensor, ledRed, gateServo, display);
+  Task *taskReadyToWash = new TaskReadyToWash(READY_TO_WASH, ultrasonicSensor, ledRed, gateServo, display);
   taskReadyToWash->init(1000);
   scheduler.addTask(taskReadyToWash);
-
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);

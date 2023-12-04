@@ -25,20 +25,17 @@ float UltrasonicSensor::getDistance() {
   float t = tUS / 1000.0 / 1000.0 / 2;
   float distance = t * vs;
   Serial.print(distance);
+  Serial.println(distance);
   return distance;
 }
 
 //questo metodo controlla se la macchina è entrata controllando la distanza
 int UltrasonicSensor::carIn() {
   //se la distanza è minore della distanza minima allora la macchina è dentro
-  if (getDistance() < mindist) {
-    return 0;
-  }
+  return getDistance() < mindist;
 }
 
 int UltrasonicSensor::carOut() {
   //se la distanza è maggiore della distanza massima allora la macchina è fuori
-  if (getDistance() > maxdist) {
-    return 0;
-  }
+  return getDistance() > maxdist;
 }

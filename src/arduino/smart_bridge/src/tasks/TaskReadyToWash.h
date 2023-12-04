@@ -18,7 +18,6 @@ class TaskReadyToWash:public Task {
         Led& ledRed;
         ServoMotor& gate;
         Display& lcd;
-        bool vehicleDetected;
         bool isVehicleInside;
         int secondsInsideZone;
 
