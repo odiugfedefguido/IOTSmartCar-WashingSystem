@@ -1,4 +1,4 @@
-/*#include "UltrasonicSensor.h"
+#include "UltrasonicSensor.h"
 #include <Arduino.h>
 
 UltrasonicSensor::UltrasonicSensor(int trigPin, int echoPin, int mindist, int maxdist) {
@@ -24,7 +24,6 @@ float UltrasonicSensor::getDistance() {
   float tUS = pulseIn(echoPin, HIGH);
   float t = tUS / 1000.0 / 1000.0 / 2;
   float distance = t * vs;
-  Serial.print(distance);
   Serial.println(distance);
   return distance;
 }
@@ -39,4 +38,3 @@ int UltrasonicSensor::carOut() {
   //se la distanza è maggiore della distanza massima allora la macchina è fuori
   return getDistance() > maxdist;
 }
-*/

@@ -10,11 +10,10 @@
 #include "core/StateMachine.h"
 
 #include "tasks/BlinkTask.h"
+#include "tasks/TaskOpenGate.h"
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskMaintenance.h"
-#include "tasks/TaskProceed.h"
-#include "tasks/TaskOpenGate.h"
-#include "tasks/TaskReadyToWash.h"
+#include "tasks/TaskWelcome.h"
 
 #include "serial/MsgService.h"
 
@@ -40,7 +39,7 @@ Scheduler scheduler;
 void debug();
 
 TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
-//UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
+UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
 Display display;
 Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
@@ -60,27 +59,27 @@ void setup()
   ledRed.setup();
 
   temperatureSensor.setup();
-  //ultrasonicSensor.setup();
+  ultrasonicSensor.setup();
   pirSensor.setup();
 
   gateServo.setup();
   display.setup();
 
-  Task *taskCheckin = new TaskCheckin(OFF, startButton, ledGreen1, ledGreen2, ledRed, gateServo, display, pirSensor);
+  Task *taskCheckin = new TaskCheckin(CHECKIN, startButton, ledGreen1, ledGreen2, ledRed, gateServo, display, pirSensor);
   taskCheckin->init(500);
   scheduler.addTask(taskCheckin);
 
-  Task *taskProceed = new TaskProceed(WELCOME, ledGreen2);
-  taskProceed->init(100);
-  scheduler.addTask(taskProceed);
+  Task *blinkTaskReadyToWash = new BlinkTask(WELCOME, ledGreen2);
+  blinkTaskReadyToWash->init(100);
+  scheduler.addTask(blinkTaskReadyToWash);
 
   Task *taskOpenGate = new TaskOpenGate(WELCOME, gateServo);
   taskOpenGate->init(10);
   scheduler.addTask(taskOpenGate);
 
-  Task *taskReadyToWash = new TaskReadyToWash(READY_TO_WASH, ultrasonicSensor, ledRed, gateServo, display);
-  taskReadyToWash->init(1000);
-  scheduler.addTask(taskReadyToWash);
+  Task *taskWelcome = new TaskWelcome(WELCOME, ultrasonicSensor, ledRed, gateServo, display);
+  taskWelcome->init(1000);
+  scheduler.addTask(taskWelcome);
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);

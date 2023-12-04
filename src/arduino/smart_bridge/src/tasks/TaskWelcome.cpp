@@ -3,13 +3,13 @@
 //-) se la distanza misurata dal veicolo al sonar è minore di MINDIST per N2 sec il veicolo è considerato dentro la zona 2 --> gate si chiude + L2 Red diventa accesa
 //(smette di lampeggiare quindi) + "Ready to Wash" mex nel LCD
 #include "Arduino.h"
-#include "TaskReadyToWash.h"
+#include "TaskWelcome.h"
 
 #include "../core/StateMachine.h"
 
 #define N2 5 // Durata in secondi per cui la distanza deve essere minore di MINDIST
 
-TaskReadyToWash::TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led &ledRed, ServoMotor &gate, Display &lcd)
+TaskWelcome::TaskWelcome(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led &ledRed, ServoMotor &gate, Display &lcd)
    : Task(activeState), ultrasonicSensor(ultrasonicSensor), ledRed(ledRed), gate(gate), lcd(lcd)
     {
         //vehicleDetectedTime = 0;
@@ -18,11 +18,11 @@ TaskReadyToWash::TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultr
         secondsInsideZone = 0;
     }
 
-void TaskReadyToWash::init(int period) {
+void TaskWelcome::init(int period) {
     Task::init(period);
 }
 
-void TaskReadyToWash::tick() {
+void TaskWelcome::tick() {
     Serial.println(ultrasonicSensor.carIn());
 
     if(ultrasonicSensor.carIn()) { //se la macchina è nella zona due 
@@ -30,15 +30,12 @@ void TaskReadyToWash::tick() {
         if (!isVehicleInside) { //se il veicolo non era gia dentro
             // record the timestamp when the vehicle arrives for the first time
             lcd.showText(MSG_READY);
-            isVehicleInside = true;
-
-            ledRed.turnOn();
-            
+            isVehicleInside = true;            
         } 
         secondsInsideZone++; //ad ogni tic entra e aumenta di uno il tempo che la macchina è nella zona 2
         Serial.println(secondsInsideZone);
         if (secondsInsideZone >= N2) {
-            StateMachine::transitionTo(WASHING);
+            StateMachine::transitionTo(READY_TO_WASH);
            /* lcd.showText();
             closeGate(); // Chiude il gate quando la macchina è dentro per N2 secondi
             ledRed.turnOff(); // Spegni il LED rosso

@@ -3,7 +3,7 @@
 
 #include "../serial/MsgService.h"
 
-static SystemState currentState = OFF;
+static SystemState currentState = CHECKIN;
 
 SystemState StateMachine::getCurrentState() {
   return currentState;
@@ -11,14 +11,11 @@ SystemState StateMachine::getCurrentState() {
 
 String getStatusText() {
   switch (currentState) {
-    case OFF:
-      return "IDLE";
+    case CHECKIN:
+      return "CHECKIN";
       break;
     case WELCOME:
       return "CAR ARRIVED";
-      break;
-    case PROCEED_TO_WASHING_AREA:
-      return "PROCEED TO WASHING";
       break;
     case READY_TO_WASH:
       return "READY TO WASH";
@@ -28,9 +25,6 @@ String getStatusText() {
       break;
     case WASHING_COMPLETE:
       return "WASHING COMPLETE";
-      break;
-    case LEAVE_AREA:
-      return "LEAVING THE AREA";
       break;
     case MAINTENANCE_REQUIRED:
       return "MAINTENANCE REQUIRED";

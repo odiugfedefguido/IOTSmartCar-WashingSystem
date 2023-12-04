@@ -1,4 +1,3 @@
-// BlinkTask.h
 #ifndef __BLINK_TASK__
 #define __BLINK_TASK__
 

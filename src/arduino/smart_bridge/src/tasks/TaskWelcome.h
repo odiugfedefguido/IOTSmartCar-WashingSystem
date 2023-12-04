@@ -6,9 +6,9 @@
 #include "Task.h"
 
 
-class TaskReadyToWash:public Task {
+class TaskWelcome:public Task {
     public:
-        TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led& led, ServoMotor& gate, Display& lcd);
+        TaskWelcome(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led &led, ServoMotor &gate, Display &lcd);
         void init(int period);
         void tick();
 
