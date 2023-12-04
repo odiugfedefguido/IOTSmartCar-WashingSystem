@@ -3,6 +3,7 @@
 
 #include "../core/StateMachine.h"
 #include "Arduino.h"
+#include "../serial/MsgService.h"
 
 class Task {
 

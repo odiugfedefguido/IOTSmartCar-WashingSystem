@@ -9,7 +9,7 @@
 class TaskComplete : public Task 
 {
     public:
-        TaskComplete(SystemState activeState, Display &lcd, Led &ledRed, Led &ledGreen, UltrasonicSensor &ultrasonicSensor);
+        TaskComplete(SystemState activeState, Display &lcd, Led &ledRed, Led &ledGreen, UltrasonicSensor &ultrasonicSensor, ServoMotor &gate);
         void init(int period);
         void tick();
 
@@ -18,6 +18,7 @@ class TaskComplete : public Task
         Led &ledRed;
         Led &ledGreen;
         UltrasonicSensor &ultrasonicSensor;
+        ServoMotor &gate;
         int carAbsenceDuration = 0;
         bool isFirstMessage = true;
 };

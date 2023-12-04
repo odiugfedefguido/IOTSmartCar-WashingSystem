@@ -3,7 +3,7 @@
 
 #define N4 5 // seconds for a car to be absent
 
-TaskComplete::TaskComplete(SystemState activeState, Display &lcd, Led &ledRed, Led &ledGreen, UltrasonicSensor &ultrasonicSensor) : Task(activeState), lcd(lcd), ledRed(ledRed), ledGreen(ledGreen), ultrasonicSensor(ultrasonicSensor)
+TaskComplete::TaskComplete(SystemState activeState, Display &lcd, Led &ledRed, Led &ledGreen, UltrasonicSensor &ultrasonicSensor, ServoMotor& gate) : Task(activeState), lcd(lcd), ledRed(ledRed), ledGreen(ledGreen), ultrasonicSensor(ultrasonicSensor), gate(gate)
 {
     // Empty.
 }
@@ -35,7 +35,8 @@ void TaskComplete::tick()
         if (carAbsenceDuration > N4) 
         {
             ledGreen.turnOff();
-            // TODO: gate.open();
+            gate.openGate();
+            MsgService.sendMsg("COMPLETE");
             StateMachine::transitionTo(CHECKIN);
         }
     } else {

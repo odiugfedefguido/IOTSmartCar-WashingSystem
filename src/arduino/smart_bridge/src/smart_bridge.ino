@@ -93,7 +93,7 @@ void setup()
   blinkTaskWashing->init(500);
   scheduler.addTask(blinkTaskWashing);
 
-  Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display, ledRed, ledGreen2, ultrasonicSensor);
+  Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display, ledRed, ledGreen2, ultrasonicSensor, gateServo);
   taskComplete->init(1000);
   scheduler.addTask(taskComplete);
 
