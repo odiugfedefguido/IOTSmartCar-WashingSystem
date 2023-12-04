@@ -17,6 +17,7 @@ void TaskComplete::tick()
 {
     ledRed.turnOff();
     ledGreen.turnOn();
+    gate.openGate();
 
     if (isFirstMessage)
     {
@@ -37,6 +38,7 @@ void TaskComplete::tick()
             ledGreen.turnOff();
             gate.openGate();
             MsgService.sendMsg("COMPLETE");
+            carAbsenceDuration = 0;
             StateMachine::transitionTo(CHECKIN);
         }
     } else {

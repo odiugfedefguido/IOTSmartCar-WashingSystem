@@ -32,6 +32,8 @@ void TaskWelcome::tick() {
         Serial.println(secondsInsideZone);
         
         if (secondsInsideZone >= N2) {
+            isVehicleInside = false;
+            secondsInsideZone = 0;
             StateMachine::transitionTo(READY_TO_WASH);
             return;
         }

@@ -25,7 +25,7 @@ class Dashboard:
         self.status_var.set("WASHING")
 
         self.create_gui()
-        self.root.geometry('850x900')
+        self.root.geometry('850x600')
 
         self.root.after(200, self.update)
         self.root.mainloop()

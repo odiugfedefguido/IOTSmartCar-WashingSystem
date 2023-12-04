@@ -36,7 +36,7 @@
 #define N4 20
 #define MINDIST 0.10
 #define MAXDIST 0.10
-#define MAXTEMP 30
+#define MAXTEMP 100000
 
 Scheduler scheduler;
 

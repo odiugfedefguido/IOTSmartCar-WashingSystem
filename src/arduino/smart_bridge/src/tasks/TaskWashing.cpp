@@ -32,6 +32,8 @@ void TaskWashing::tick() {
         Serial.println(secondsAtHighTemperature);
 
         if (secondsAtHighTemperature >= N5) {
+            secondsAtHighTemperature = 0;
+            secondsWashing = 0;
             StateMachine::transitionTo(MAINTENANCE_REQUIRED);
             return;
         }
@@ -42,6 +44,8 @@ void TaskWashing::tick() {
     }
 
     if (secondsWashing >= N3) { //macchina lavata
+        secondsAtHighTemperature = 0;
+        secondsWashing = 0;
         StateMachine::transitionTo(WASHING_COMPLETE);
     }
 }

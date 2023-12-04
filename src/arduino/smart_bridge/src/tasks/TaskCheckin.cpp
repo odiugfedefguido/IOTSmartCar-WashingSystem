@@ -36,6 +36,8 @@ void TaskCheckin::tick() {
     else if (millis() - vehicleDetectedTime > N1)
     {
       ledGreen1.turnOff();
+      vehicleDetected = false;
+      vehicleDetectedTime = 0;
       StateMachine::transitionTo(WELCOME);
     }
   } else {
