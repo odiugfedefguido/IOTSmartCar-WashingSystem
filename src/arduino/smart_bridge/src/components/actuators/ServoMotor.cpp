@@ -26,18 +26,20 @@ int ServoMotor::read() {
 
 void ServoMotor::openGate()
 {
-  int currentValue = servo.read();
+  /*int currentValue = servo.read();
   if (currentValue > 0)
   {
     servo.write(currentValue - 10);
-  }
+  }*/
+  servo.write(0);
 }
 
 void ServoMotor::closeGate()
 {
-  int currentValue = servo.read();
+  /*int currentValue = servo.read();
   if (currentValue < 2000)
   {
     servo.write(currentValue + 10);
-  }
+  }*/
+  servo.write(2000);
 }

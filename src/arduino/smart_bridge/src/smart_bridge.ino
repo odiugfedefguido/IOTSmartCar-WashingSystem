@@ -10,7 +10,6 @@
 #include "core/StateMachine.h"
 
 #include "tasks/BlinkTask.h"
-#include "tasks/TaskOpenGate.h"
 
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskWelcome.h"
@@ -32,8 +31,8 @@
 #define N2 10
 
 #define N4 20
-#define MINDIST 0.05
-#define MAXDIST 0.05
+#define MINDIST 0.10
+#define MAXDIST 0.10
 #define MAXTEMP 30
 
 Scheduler scheduler;
@@ -75,21 +74,13 @@ void setup()
   blinkTaskReadyToWash->init(100);
   scheduler.addTask(blinkTaskReadyToWash);
 
-  Task *taskOpenGateWelcome = new TaskOpenGate(WELCOME, gateServo);
-  taskOpenGateWelcome->init(10);
-  scheduler.addTask(taskOpenGateWelcome);
-
   Task *taskWelcome = new TaskWelcome(WELCOME, ultrasonicSensor, ledRed, gateServo, display);
   taskWelcome->init(1000);
   scheduler.addTask(taskWelcome);
 
-  Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display);
-  taskComplete->init(100);
+  Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display, ledRed, ledGreen2, ultrasonicSensor);
+  taskComplete->init(1000);
   scheduler.addTask(taskComplete);
-
-  Task *taskOpenGateComplete = new TaskOpenGate(WELCOME, gateServo);
-  taskOpenGateComplete->init(10);
-  scheduler.addTask(taskOpenGateComplete);
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);

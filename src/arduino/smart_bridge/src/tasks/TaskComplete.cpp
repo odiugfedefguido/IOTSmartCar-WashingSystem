@@ -1,9 +1,9 @@
 #include "TaskComplete.h"
 #include "Arduino.h"
 
-bool isFirstMessage = true;
+#define N4 5 // seconds for a car to be absent
 
-TaskComplete::TaskComplete(SystemState activeState, Display &lcd) : Task(activeState), lcd(lcd)
+TaskComplete::TaskComplete(SystemState activeState, Display &lcd, Led &ledRed, Led &ledGreen, UltrasonicSensor &ultrasonicSensor) : Task(activeState), lcd(lcd), ledRed(ledRed), ledGreen(ledGreen), ultrasonicSensor(ultrasonicSensor)
 {
     // Empty.
 }
@@ -15,6 +15,9 @@ void TaskComplete::init(int period)
 
 void TaskComplete::tick()
 {
+    ledRed.turnOff();
+    ledGreen.turnOn();
+
     if (isFirstMessage)
     {
         lcd.showText(MSG_COMPLETE1);
@@ -25,4 +28,17 @@ void TaskComplete::tick()
     }
 
     isFirstMessage = !isFirstMessage;
+
+    if (ultrasonicSensor.carOut()) {
+        carAbsenceDuration += 1;
+
+        if (carAbsenceDuration > N4) 
+        {
+            ledGreen.turnOff();
+            // TODO: gate.open();
+            StateMachine::transitionTo(CHECKIN);
+        }
+    } else {
+        carAbsenceDuration = 0;
+    }
 }

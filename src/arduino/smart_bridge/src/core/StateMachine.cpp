@@ -3,7 +3,7 @@
 
 #include "../serial/MsgService.h"
 
-static SystemState currentState = WASHING_COMPLETE;
+static SystemState currentState = CHECKIN;
 
 SystemState StateMachine::getCurrentState() {
   return currentState;

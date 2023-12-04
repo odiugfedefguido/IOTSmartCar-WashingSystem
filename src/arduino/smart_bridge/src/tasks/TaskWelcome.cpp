@@ -17,6 +17,7 @@ void TaskWelcome::init(int period) {
 }
 
 void TaskWelcome::tick() {
+    gate.openGate();
     Serial.println(ultrasonicSensor.carIn());
 
     if(ultrasonicSensor.carIn()) { //se la macchina è nella zona due 
