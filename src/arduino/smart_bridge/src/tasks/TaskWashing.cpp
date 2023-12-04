@@ -18,16 +18,13 @@ void TaskWashing::init(int period) {
 }
 
 void TaskWashing::tick() {
-        secondsWashing++;
-        //stampo il tempo rimanente
-        lcd.showNumber(N3-secondsWashing);
+    secondsWashing++;
+    Serial.println(secondsWashing);
+    //stampo il tempo rimanente
+    lcd.showNumber(N3-secondsWashing);
 
-        if(secondsWashing >= N3) { //macchina lavata
-            StateMachine::transitionTo(WASHING_COMPLETE);
-            return;
-        } else {
-            
-        }
-    
-
+    if(secondsWashing >= N3) { //macchina lavata
+        StateMachine::transitionTo(WASHING_COMPLETE);
+        return;
+    }
 }
