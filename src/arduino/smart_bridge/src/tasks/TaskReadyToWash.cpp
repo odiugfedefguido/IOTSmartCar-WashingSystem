@@ -2,53 +2,58 @@
 //-) entrata del veicolo nella zona 2 è rilevata  al SONAR 
 //-) se la distanza misurata dal veicolo al sonar è minore di MINDIST per N2 sec il veicolo è considerato dentro la zona 2 --> gate si chiude + L2 Red diventa accesa
 //(smette di lampeggiare quindi) + "Ready to Wash" mex nel LCD
+#include "Arduino.h"
+#include "TaskReadyToWash.h"
 
-/*
-#include <iostream>
-#include UltrasonicSensor.h
-#include ServoMotor.h
-#include Led.h
+#include "../core/StateMachine.h"
 
-void displayMessage(const std::string& message) {
-    // Funzione per mostrare il messaggio sull'LCD
-    // (Implementazione simulata)
-    std::cout << "LCD: " << message << std::endl;
-}
+#define N2 5 // Durata in secondi per cui la distanza deve essere minore di MINDIST
 
-int main() {
-    const int N2 = 5; // Durata in secondi per cui la distanza deve essere minore di MINDIST
-
-    bool isVehicleInside = false;
-    int secondsInsideZone = 0;
-
-    while (true) {
-        float distance = Ultrasuonic::getDistance(); // Utilizzo del metodo per ottenere la distanza dalla classe Ultrasuonic
-
-        if (distance == 0) { // Se la macchina è dentro la zona
-            if (!isVehicleInside) {
-                displayMessage("Ready to Wash");
-                isVehicleInside = true;
-            }
-
-            secondsInsideZone++;
-            if (secondsInsideZone >= N2) {
-                displayMessage("Washing in Progress");
-                closeGate(); // Chiude il gate quando la macchina è dentro per N2 secondi
-                turnOff(); // Spegni il LED rosso
-                break; // Esce dal loop di controllo della distanza
-            } else {
-                turnOn(); // Accendi il LED rosso se la macchina è dentro
-            }
-        } else {
-            isVehicleInside = false;
-            secondsInsideZone = 0;
-            turnOff(); // Spegni il LED rosso se la macchina è fuori
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+TaskReadyToWash::TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led &ledRed, ServoMotor &gate, Display &lcd)
+   : Task(activeState), ultrasonicSensor(ultrasonicSensor), ledRed(ledRed), gate(gate), lcd(lcd)
+    {
+        //vehicleDetectedTime = 0;
+        
+        isVehicleInside = false;
+        secondsInsideZone = 0;
     }
 
-    return 0;
+void TaskReadyToWash::init(int period) {
+    Task::init(period);
 }
-*/
+
+void TaskReadyToWash::tick() {
+    Serial.println(ultrasonicSensor.carIn());
+
+    if(ultrasonicSensor.carIn()) { //se la macchina è nella zona due 
+
+        if (!isVehicleInside) { //se il veicolo non era gia dentro
+            // record the timestamp when the vehicle arrives for the first time
+            lcd.showText(MSG_READY);
+            isVehicleInside = true;
+
+            ledRed.turnOn();
+            
+        } 
+        secondsInsideZone++; //ad ogni tic entra e aumenta di uno il tempo che la macchina è nella zona 2
+        Serial.println(secondsInsideZone);
+        if (secondsInsideZone >= N2) {
+            StateMachine::transitionTo(WASHING);
+           /* lcd.showText();
+            closeGate(); // Chiude il gate quando la macchina è dentro per N2 secondi
+            ledRed.turnOff(); // Spegni il LED rosso
+            break; // Esce dal loop di controllo della distanza*/
+            return;
+        } else {
+           ledRed.turnOn(); // Accendi il LED rosso se la macchina non è dentro
+        }
+    } else {
+        // reset variables
+        isVehicleInside = false;
+        secondsInsideZone = 0;
+        
+
+    }
+
+}
 

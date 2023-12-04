@@ -6,8 +6,8 @@ public:
   UltrasonicSensor(int trigPin, int echoPin, int mindist, int maxdist);
   void setup();
   float getDistance();
-  void carIn();
-  void carOut();
+  int carIn();
+  int carOut();
 
 private:
   int trigPin;
