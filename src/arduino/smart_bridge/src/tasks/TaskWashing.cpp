@@ -7,11 +7,10 @@
 
 #define N3 7 // Durata tempo di lavaggio
 
-TaskWashing::TaskWashing(SystemState activeState, Button &button, Led &led, Display &lcd)
-   : Task(activeState), button(button), ledGreen(led), lcd(lcd)
+TaskWashing::TaskWashing(SystemState activeState, Led &led, Display &lcd)
+   : Task(activeState), ledGreen(led), lcd(lcd)
     {
         secondsWashing = 0;
-        isPressed = false;
     }
 
 void TaskWashing::init(int period) {
@@ -19,27 +18,12 @@ void TaskWashing::init(int period) {
 }
 
 void TaskWashing::tick() {
+    secondsWashing++;
+    Serial.println(secondsWashing);
+    //stampo il tempo rimanente
+    lcd.showNumber(N3-secondsWashing);
 
-    if(button.isPressed()) {
-        if (isPressed) {
-            secondsWashing++;
-            //stampo il tempo rimanente
-            lcd.showNumber(N3-secondsWashing);
-
-            if(secondsWashing >= N3) { //macchina lavata
-                lcd.showText(MSG_COMPLETE1);
-                ledGreen.turnOn();
-                StateMachine::transitionTo(WASHING_COMPLETE);
-                return;
-            } else {
-                
-            }
-        } else {
-            isPressed = true;
-        }
-
-
-    } else {
-       isPressed = false;
+    if(secondsWashing >= N3) { //macchina lavata
+        StateMachine::transitionTo(WASHING_COMPLETE);
     }
 }

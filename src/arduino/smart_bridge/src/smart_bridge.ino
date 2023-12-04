@@ -13,8 +13,10 @@
 
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskWelcome.h"
-#include "tasks/TaskMaintenance.h"
+#include "tasks/TaskReadyToWash.h"
+#include "tasks/TaskWashing.h"
 #include "tasks/TaskComplete.h"
+#include "tasks/TaskMaintenance.h"
 
 #include "serial/MsgService.h"
 
@@ -78,10 +80,18 @@ void setup()
   taskWelcome->init(1000);
   scheduler.addTask(taskWelcome);
 
+  Task *taskReadyToWash = new TaskReadyToWash(READY_TO_WASH, ledRed, gateServo, display, startButton);
+  taskReadyToWash->init(1000);
+  scheduler.addTask(taskReadyToWash);
+
+  Task *taskWashing = new TaskWashing(WASHING, ledRed, display);
+  taskWashing->init(1000);
+  scheduler.addTask(taskWashing);
+
   Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display, ledRed, ledGreen2, ultrasonicSensor);
   taskComplete->init(1000);
   scheduler.addTask(taskComplete);
-
+  
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);
   scheduler.addTask(taskMaintenance);
