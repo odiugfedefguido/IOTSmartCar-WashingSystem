@@ -1,3 +1,10 @@
+/*
+ * GROUP MEMBERS
+ * Chiara De Nardi
+ * Federica Guiducci
+ * Florian Knoch
+ */
+
 #include "components/sensors/Button.h"
 #include "components/sensors/Pir.h"
 #include "components/sensors/UltrasonicSensor.h"
