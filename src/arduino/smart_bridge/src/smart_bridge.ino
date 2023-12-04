@@ -85,7 +85,7 @@ void setup()
   taskReadyToWash->init(1000);
   scheduler.addTask(taskReadyToWash);
 
-  Task *taskWashing = new TaskWashing(WASHING, ledRed, display);
+  Task *taskWashing = new TaskWashing(WASHING, ledRed, display, temperatureSensor);
   taskWashing->init(1000);
   scheduler.addTask(taskWashing);
 
@@ -98,7 +98,7 @@ void setup()
   scheduler.addTask(taskComplete);
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
-  taskMaintenance->init(100);
+  taskMaintenance->init(1000);
   scheduler.addTask(taskMaintenance);
 }
 

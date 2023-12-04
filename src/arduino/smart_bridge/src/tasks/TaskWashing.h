@@ -1,15 +1,13 @@
-//al click del bottone parte il timere per n3 sec (durante questo tempo c'è il countdown) quando finisce il tempo 
-//finisce il lavaggio e si accente l3fissa e messaggio lavaggio puoi lasciare l'area il gate si apre fine task
-//quando max dist è piu grande chiudo il gate e l3 si spegne 
-
 #include <Arduino.h>
 #include "../components/actuators/Led.h"
 #include "../components/actuators/Display.h"
+#include "../components/sensors/TemperatureSensor.h"
 #include "Task.h"
+#include "../serial/MsgService.h"
 
 class TaskWashing:public Task {
     public:
-        TaskWashing(SystemState activeState, Led& led, Display& lcd);
+        TaskWashing(SystemState activeState, Led &led, Display &lcd, TemperatureSensor &temperatureSensor);
         void init(int period);
         void tick();
 
@@ -17,5 +15,7 @@ class TaskWashing:public Task {
         SystemState activeState;
         Led& ledGreen;
         Display& lcd;
-        int secondsWashing;
+        TemperatureSensor &temperatureSensor;
+        int secondsWashing = 0;
+        int secondsAtHighTemperature = 0;
 };

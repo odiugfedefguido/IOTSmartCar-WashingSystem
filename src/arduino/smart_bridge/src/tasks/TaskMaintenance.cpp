@@ -12,11 +12,6 @@ void TaskMaintenance::init(int period) {
 }
 
 void TaskMaintenance::tick() {
-    if (!hasBeenInitiated) {
-        MsgService.sendMsg("ERROR");
-        hasBeenInitiated = true;
-    }
-
     if (isFirstMessage) {
         lcd.showText(MSG_PROBLEM1);
     } else {

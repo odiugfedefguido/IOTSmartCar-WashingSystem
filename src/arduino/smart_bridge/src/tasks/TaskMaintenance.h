@@ -12,6 +12,6 @@ public:
 
 private:
     Display &lcd;
-    bool isFirstMessage;
-    bool hasBeenInitiated;
+    bool isFirstMessage = true;
+    bool hasBeenInitiated = false;
 };

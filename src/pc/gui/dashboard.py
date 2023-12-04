@@ -83,8 +83,9 @@ class Dashboard:
             self.temperature_var.set(content)
         elif type == 'STATUS':
             self.status_var.set(content)
-        elif type == 'ERROR':
-            self.status_var.set('MAINTENANCE REQUIRED')
-            self.button['state'] = 'enabled'
+
+            if content == 'MAINTENANCE REQUIRED':
+                print("Error")
+                self.button['state'] = 'enabled'            
             
         self.root.after(200, self.update)
