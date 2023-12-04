@@ -15,6 +15,7 @@
 #include "tasks/TaskProva.h"
 #include "tasks/TaskProceed.h"
 #include "tasks/TaskOpenGate.h"
+#include "tasks/TaskReadyToWash.h"
 
 #include "serial/MsgService.h"
 
@@ -77,6 +78,11 @@ void setup()
   Task *taskOpenGate = new TaskOpenGate(WELCOME, gateServo);
   taskOpenGate->init(10);
   scheduler.addTask(taskOpenGate);
+
+  Task *taskReadyToWash = new TaskReadyToWash(WASHING, ultrasonicSensor, ledRed, gateServo, display);
+  taskReadyToWash->init(1000);
+  scheduler.addTask(taskReadyToWash);
+
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);

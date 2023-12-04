@@ -1,18 +1,26 @@
-/*#include arduino
-#include "../components/actuators/ServoMotor.h"
+#include <Arduino.h>
+#include "../components/sensors/UltrasonicSensor.h"
 #include "../components/actuators/Led.h"
+#include "../components/actuators/ServoMotor.h"
+#include "../components/actuators/Display.h"
 #include "Task.h"
 
 
-class TaskReadyToWash {
+class TaskReadyToWash:public Task {
     public:
-        TaskReadyToWash(SystemState activeState, ServoMotor& servoMotor, Led& led);
+        TaskReadyToWash(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led& led, ServoMotor& gate, Display& lcd);
         void init(int period);
         void tick();
 
     private:
-        ServoMotor& servoMotor;
-        Led& led;
-        bool isFirstMessage;
-        bool hasBeenInitiated;
-};*/
+        SystemState activeState;
+        UltrasonicSensor& ultrasonicSensor;
+        Led& ledRed;
+        ServoMotor& gate;
+        Display& lcd;
+        bool vehicleDetected;
+        bool isVehicleInside;
+        int secondsInsideZone;
+
+
+};
