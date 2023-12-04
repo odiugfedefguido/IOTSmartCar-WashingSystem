@@ -54,7 +54,7 @@ public:
   }
 
   bool isActive(){
-    return active && StateMachine::getCurrentState() == activeState;
+    return active && (StateMachine::getCurrentState() == activeState || activeState == ALWAYS);
   }
 
   virtual void setActive(bool active){

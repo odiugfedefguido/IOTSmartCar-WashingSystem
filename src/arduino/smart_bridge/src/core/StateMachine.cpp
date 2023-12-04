@@ -3,7 +3,7 @@
 
 #include "../serial/MsgService.h"
 
-static SystemState currentState = CHECKIN;
+static SystemState currentState = OFF;
 
 SystemState StateMachine::getCurrentState() {
   return currentState;

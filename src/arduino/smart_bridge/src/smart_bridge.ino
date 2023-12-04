@@ -10,6 +10,7 @@
 #include "core/StateMachine.h"
 
 #include "tasks/BlinkTask.h"
+#include "tasks/TaskTemperature.h"
 
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskWelcome.h"
@@ -69,6 +70,10 @@ void setup()
   ultrasonicSensor.setup();
   pirSensor.setup();
 
+  Task *taskTemperature = new TaskTemperature(ALWAYS, temperatureSensor);
+  taskTemperature->init(1000);
+  scheduler.addTask(taskTemperature);
+
   Task *taskCheckin = new TaskCheckin(CHECKIN, startButton, ledGreen1, ledGreen2, ledRed, gateServo, display, pirSensor);
   taskCheckin->init(500);
   scheduler.addTask(taskCheckin);
@@ -100,6 +105,8 @@ void setup()
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(1000);
   scheduler.addTask(taskMaintenance);
+
+  StateMachine::transitionTo(CHECKIN);
 }
 
 void loop()

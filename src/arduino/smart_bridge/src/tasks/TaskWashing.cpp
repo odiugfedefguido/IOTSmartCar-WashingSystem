@@ -4,7 +4,7 @@
 #include "../core/StateMachine.h"
 
 #define N3 7 // washing time
-#define MAX_TEMPERATURE 45 // temperature threshold
+#define MAX_TEMPERATURE 30 // temperature threshold
 #define N5 2 // max time of high temperature
 
 TaskWashing::TaskWashing(SystemState activeState, Led &led, Display &lcd, TemperatureSensor &temperatureSensor)

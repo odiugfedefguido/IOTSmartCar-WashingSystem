@@ -3,6 +3,8 @@
 // Variabili di stato
 enum SystemState
 {
+  OFF, // first state
+  ALWAYS, // for temperature measurements
   CHECKIN,
   /*
     • When no one is around, the system is off, sleeping.

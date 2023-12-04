@@ -3,7 +3,6 @@
 #include "../components/actuators/Display.h"
 #include "../components/sensors/TemperatureSensor.h"
 #include "Task.h"
-#include "../serial/MsgService.h"
 
 class TaskWashing:public Task {
     public:
