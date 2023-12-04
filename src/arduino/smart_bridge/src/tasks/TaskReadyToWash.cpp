@@ -3,6 +3,7 @@
 //-) se la distanza misurata dal veicolo al sonar è minore di MINDIST per N2 sec il veicolo è considerato dentro la zona 2 --> gate si chiude + L2 Red diventa accesa
 //(smette di lampeggiare quindi) + "Ready to Wash" mex nel LCD
 
+/*
 #include <iostream>
 #include UltrasonicSensor.h
 #include ServoMotor.h
@@ -49,5 +50,5 @@ int main() {
 
     return 0;
 }
-
+*/
 

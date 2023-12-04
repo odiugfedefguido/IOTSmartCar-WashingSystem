@@ -1,4 +1,4 @@
-#ifndef ULTRASONICSENSOR_H
+/*#ifndef ULTRASONICSENSOR_H
 #define ULTRASONICSENSOR_H
 
 class UltrasonicSensor {
@@ -18,3 +18,4 @@ private:
 };
 
 #endif
+*/

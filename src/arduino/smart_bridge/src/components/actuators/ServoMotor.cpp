@@ -27,7 +27,7 @@ int ServoMotor::read() {
 void ServoMotor::openGate()
 {
   int currentValue = servo.read();
-  if (currentValue > 1000)
+  if (currentValue > 0)
   {
     servo.write(currentValue - 10);
   }

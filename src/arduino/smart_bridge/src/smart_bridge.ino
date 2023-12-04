@@ -12,7 +12,6 @@
 #include "tasks/BlinkTask.h"
 #include "tasks/TaskCheckin.h"
 #include "tasks/TaskMaintenance.h"
-#include "tasks/TaskProva.h"
 #include "tasks/TaskProceed.h"
 #include "tasks/TaskOpenGate.h"
 
@@ -40,7 +39,7 @@ Scheduler scheduler;
 void debug();
 
 TemperatureSensor temperatureSensor(TEMPERATURE_PIN);
-UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
+//UltrasonicSensor ultrasonicSensor(SONAR_TRIGPIN, SONAR_ECHOPIN, MINDIST, MAXDIST);
 Display display;
 Button startButton(START_BUTTON_PIN);
 ServoMotor gateServo(GATE_PIN);
@@ -60,7 +59,7 @@ void setup()
   ledRed.setup();
 
   temperatureSensor.setup();
-  ultrasonicSensor.setup();
+  //ultrasonicSensor.setup();
   pirSensor.setup();
 
   gateServo.setup();

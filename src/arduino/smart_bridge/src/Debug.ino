@@ -32,8 +32,8 @@ void debug() {
     }
  
     // sonar sensor
-    float distance = ultrasonicSensor.getDistance();
-    Serial.println("Sonar distance measurement: " + String(distance));
+    //float distance = ultrasonicSensor.getDistance();
+    //Serial.println("Sonar distance measurement: " + String(distance));
 
     // temperature sensor
     float temperature = temperatureSensor.getTemperature();

@@ -1,4 +1,4 @@
-#include "UltrasonicSensor.h"
+/*#include "UltrasonicSensor.h"
 #include <Arduino.h>
 
 UltrasonicSensor::UltrasonicSensor(int trigPin, int echoPin, int mindist, int maxdist) {
@@ -42,3 +42,4 @@ int UltrasonicSensor::carOut() {
     return 0;
   }
 }
+*/
