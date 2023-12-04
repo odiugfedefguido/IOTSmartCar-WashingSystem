@@ -11,9 +11,11 @@
 
 #include "tasks/BlinkTask.h"
 #include "tasks/TaskOpenGate.h"
+
 #include "tasks/TaskCheckin.h"
-#include "tasks/TaskMaintenance.h"
 #include "tasks/TaskWelcome.h"
+#include "tasks/TaskMaintenance.h"
+#include "tasks/TaskComplete.h"
 
 #include "serial/MsgService.h"
 
@@ -73,13 +75,21 @@ void setup()
   blinkTaskReadyToWash->init(100);
   scheduler.addTask(blinkTaskReadyToWash);
 
-  Task *taskOpenGate = new TaskOpenGate(WELCOME, gateServo);
-  taskOpenGate->init(10);
-  scheduler.addTask(taskOpenGate);
+  Task *taskOpenGateWelcome = new TaskOpenGate(WELCOME, gateServo);
+  taskOpenGateWelcome->init(10);
+  scheduler.addTask(taskOpenGateWelcome);
 
   Task *taskWelcome = new TaskWelcome(WELCOME, ultrasonicSensor, ledRed, gateServo, display);
   taskWelcome->init(1000);
   scheduler.addTask(taskWelcome);
+
+  Task *taskComplete = new TaskComplete(WASHING_COMPLETE, display);
+  taskComplete->init(100);
+  scheduler.addTask(taskComplete);
+
+  Task *taskOpenGateComplete = new TaskOpenGate(WELCOME, gateServo);
+  taskOpenGateComplete->init(10);
+  scheduler.addTask(taskOpenGateComplete);
 
   Task *taskMaintenance = new TaskMaintenance(MAINTENANCE_REQUIRED, display);
   taskMaintenance->init(100);

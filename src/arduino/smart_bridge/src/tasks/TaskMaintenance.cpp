@@ -2,9 +2,6 @@
 #include "Arduino.h"
 #include "../serial/MsgService.h"
 
-bool isFirstMessage = true;
-bool hasBeenInitiated = false;
-
 TaskMaintenance::TaskMaintenance(SystemState activeState, Display &lcd) : Task(activeState), lcd(lcd)
 {
     // Empty.
