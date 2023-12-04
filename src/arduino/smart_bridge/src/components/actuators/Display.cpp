@@ -14,6 +14,14 @@ void Display::setup()
   lcd.backlight();
 }
 
+void Display::showNumber(int number) 
+{
+  lcd.clear();
+  lcd.backlight();
+  lcd.setCursor(3, 0);
+  lcd.print(number);
+}
+
 void Display::showText(Message message) 
 {
   // Set the cursor on the third column and first row.

@@ -1,7 +1,3 @@
-//il gate si apre e il veicolo va alla zona 2 --> L2 Red inizia a lampeggiare ogni 0.1 sec + "Proceed to the Washing Area" mex nel LCD
-//-) entrata del veicolo nella zona 2 è rilevata  al SONAR 
-//-) se la distanza misurata dal veicolo al sonar è minore di MINDIST per N2 sec il veicolo è considerato dentro la zona 2 --> gate si chiude + L2 Red diventa accesa
-//(smette di lampeggiare quindi) + "Ready to Wash" mex nel LCD
 #include "Arduino.h"
 #include "TaskWelcome.h"
 
@@ -12,8 +8,6 @@
 TaskWelcome::TaskWelcome(SystemState activeState, UltrasonicSensor &ultrasonicSensor, Led &ledRed, ServoMotor &gate, Display &lcd)
    : Task(activeState), ultrasonicSensor(ultrasonicSensor), ledRed(ledRed), gate(gate), lcd(lcd)
     {
-        //vehicleDetectedTime = 0;
-        
         isVehicleInside = false;
         secondsInsideZone = 0;
     }

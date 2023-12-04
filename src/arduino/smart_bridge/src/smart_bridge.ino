@@ -28,7 +28,7 @@
 #define TEMPERATURE_PIN A0
 
 #define N2 10
-#define N3 15
+
 #define N4 20
 #define MINDIST 0.05
 #define MAXDIST 0.05

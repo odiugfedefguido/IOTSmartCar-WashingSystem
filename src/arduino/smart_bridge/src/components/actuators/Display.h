@@ -18,6 +18,7 @@ public:
   void showText(Message message);
   void setup();
   void turnOff();
+  void showNumber(int number);
 };
 
 #endif
