@@ -69,4 +69,5 @@ void Display::showText(Message message)
 
 void Display::turnOff() {
   lcd.clear();
+  lcd.noBacklight();
 }

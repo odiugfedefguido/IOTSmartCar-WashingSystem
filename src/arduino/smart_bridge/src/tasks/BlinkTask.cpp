@@ -1,4 +1,3 @@
-// BlinkTask.cpp
 #include "BlinkTask.h"
 
 BlinkTask::BlinkTask(SystemState activeState, Led &led): Task(activeState), led(&led)
