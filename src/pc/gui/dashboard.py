@@ -22,7 +22,7 @@ class Dashboard:
         self.count_var = StringVar()
         self.count_var.set(self.count)
         self.status_var = StringVar()
-        self.status_var.set("WASHING")
+        self.status_var.set("CALIBRATING")
 
         self.create_gui()
         self.root.geometry('850x600')
